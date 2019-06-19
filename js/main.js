@@ -4,13 +4,15 @@ var TYPES = ['place', 'flat', 'house', 'bungalo'];
 var MAP_WIDTH = 1200;
 var MAP_HEIGTH_MIN = 130;
 var MAP_HEIGTH_MAX = 630;
+// var MAIN_PIN_WIDTH = 65;
+// var MAIN_PIN_HEIGHT = 81;
+var mainPin = document.querySelector('.map__pin--main');
+var formAdress = document.querySelector('.ad-form');
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-
 /**
  * Создает рандомное число
  * @param {number} min — минимальное число
- * @param {number} max -максимальное число
+ * @param {number} max - максимальное число
  */
 
 var getRandomFromInterval = function (min, max) {
@@ -28,12 +30,10 @@ var getRandomElementFromArray = function (arr) {
 
 /**
  * Создает обьект
- * @param {object} k — число
+ * @param {object} k —- число
  * @return {object} -- объект данных о объявлении
  */
 var createData = function () {
-  var x = getRandomFromInterval(0, MAP_WIDTH);
-  var y = getRandomFromInterval(MAP_HEIGTH_MIN, MAP_HEIGTH_MAX);
   var advertData = {
     author: {
       avatar: 'img/avatars/user0' + getRandomFromInterval(1, COUNT) + '.png'
@@ -42,8 +42,8 @@ var createData = function () {
       type: getRandomElementFromArray(TYPES)
     },
     location: {
-      x: x,
-      y: y
+      x: getRandomFromInterval(0, MAP_WIDTH),
+      y: getRandomFromInterval(MAP_HEIGTH_MIN, MAP_HEIGTH_MAX)
     }
   };
   return advertData;
@@ -58,10 +58,9 @@ for (var i = 0; i < COUNT; i++) {
   var advert = createData(adverts[i]);
   adverts.push(advert);
 }
-
 /**
  * Создает и отрисовывает обьявление на карте
- * @param {object} pinData - данные обьекта обьявления для отрисовки пина
+ * @param {object} pinData -- данные обьекта обьявления для отрисовки пина
  * @return {object} -- элемент с данными о обьявлении
  */
 
@@ -80,12 +79,49 @@ var createMapPin = function (pinData) {
  * Вставка обьявлений во фрагмент
  */
 var fragment = document.createDocumentFragment();
-for (var j = 0; j < adverts.length; j++) {
-  var element = createMapPin(adverts[j]);
-  fragment.appendChild(element);
+adverts.forEach(function () {
+  fragment.appendChild(createMapPin(advert));
+});
+
+var fieldsetList = formAdress.querySelectorAll('fieldset');
+function disableFieldset() {
+  for (i = 0; i < fieldsetList.length; i++) {
+    var fieldsetTag = fieldsetList[i];
+    fieldsetTag.disabled = true;
+  }
 }
 /**
- * Вставка  фрагмента а ДОМ
+ * Функция активации карты
+ * удаление класса деактивации
+ * удаления класса деактивации полей формы
+ * вставка в ДОМ фрагмента и отрисовка пинов
  */
-var pinListElement = document.querySelector('.map__pins');
-pinListElement.appendChild(fragment);
+var formActive = function () {
+  map.classList.remove('map--faded');
+  formAdress.classList.remove('ad-form--disabled');
+  document.querySelector('.map__pins').appendChild(fragment);
+};
+
+/**
+ * Функция определения координат адресса метки
+ * @param {number} x -- координата по горизонтали
+ * @param {number} y -- координата по вертикали
+ */
+var setAddressCoords = function (x, y) {
+  formAdress.querySelector('#address').value = x + ', ' + y;
+};
+
+/**
+ * Функция активации страницы
+ */
+var activatePage = function () {
+  formActive();
+  disableFieldset(false);
+  setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
+  mainPin.removeEventListener('mouseup', activatePage);
+};
+
+/**
+ * Функция активации страницы при клике на главную метку
+ */
+mainPin.addEventListener('mouseup', activatePage);
