@@ -9,6 +9,17 @@ var MAP_HEIGTH_MAX = 630;
 var mainPin = document.querySelector('.map__pin--main');
 var formAdress = document.querySelector('.ad-form');
 var map = document.querySelector('.map');
+var typeSelect = formAdress.querySelector('#type');
+var priceSelect = formAdress.querySelector('#price');
+var timeinSelect = formAdress.querySelector('#timein');
+var timeoutSelect = formAdress.querySelector('#timeout');
+var MinPrice = {
+  BUNGALO: 0,
+  FLAT: 1000,
+  HOUSE: 5000,
+  PALACE: 10000,
+};
+
 /**
  * Создает рандомное число
  * @param {number} min — минимальное число
@@ -30,7 +41,6 @@ var getRandomElementFromArray = function (arr) {
 
 /**
  * Создает обьект
- * @param {object} k —- число
  * @return {object} -- объект данных о объявлении
  */
 var createData = function () {
@@ -55,7 +65,7 @@ var createData = function () {
 
 var adverts = [];
 for (var i = 0; i < COUNT; i++) {
-  var advert = createData(adverts[i]);
+  var advert = createData(i);
   adverts.push(advert);
 }
 /**
@@ -79,16 +89,21 @@ var createMapPin = function (pinData) {
  * Вставка обьявлений во фрагмент
  */
 var fragment = document.createDocumentFragment();
-adverts.forEach(function () {
-  fragment.appendChild(createMapPin(advert));
-});
+for (var j = 0; j < adverts.length; j++) {
+  var element = createMapPin(adverts[j]);
+  fragment.appendChild(element);
+}
+// var fragment = document.createDocumentFragment();
+// adverts.forEach(function () {
+//   fragment.appendChild(createMapPin(advert));
+// });
 
+/**
+ *  Блокировка полей
+ */
 var fieldsetList = formAdress.querySelectorAll('fieldset');
-function disableFieldset() {
-  for (i = 0; i < fieldsetList.length; i++) {
-    var fieldsetTag = fieldsetList[i];
-    fieldsetTag.disabled = true;
-  }
+for (i = 0; i < fieldsetList.length; i++) {
+  fieldsetList[i].setAttribute('disabled', 'true');
 }
 /**
  * Функция активации карты
@@ -113,10 +128,16 @@ var setAddressCoords = function (x, y) {
 
 /**
  * Функция активации страницы
+ * активация формы
+ * разблокирование полей формы
+ * определение координаты метки
+ * активация страницы по клику
  */
 var activatePage = function () {
   formActive();
-  disableFieldset(false);
+  for (i = 0; i < fieldsetList.length; i++) {
+    fieldsetList[i].removeAttribute('disabled');
+  }
   setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
   mainPin.removeEventListener('mouseup', activatePage);
 };
@@ -125,3 +146,27 @@ var activatePage = function () {
  * Функция активации страницы при клике на главную метку
  */
 mainPin.addEventListener('mouseup', activatePage);
+
+/**
+ * Функция обработчик события изменений на поле цены
+ * значение мин цены берется из перечисления
+ */
+typeSelect.addEventListener('change', function () {
+  priceSelect.min = MinPrice[typeSelect.value.toUpperCase()];
+  priceSelect.placeholder = MinPrice[typeSelect.value.toUpperCase()];
+});
+/**
+ * Функция - обработчик события изменения на поле заезда
+ * @param {Event} evt
+ */
+timeinSelect.addEventListener('change', function (evt) {
+  timeoutSelect.value = evt.target.value;
+});
+
+/**
+ * Функция - обработчик событий на поле выезда
+ * @param {Event} evt
+ */
+timeoutSelect.addEventListener('change', function (evt) {
+  timeinSelect.value = evt.target.value;
+});

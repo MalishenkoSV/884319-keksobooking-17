@@ -63,7 +63,7 @@
             <option value="1">Один гость</option>
             <option value="0">Не для гостей</option>
           </select>
-          <fieldset  id="housing-features" class="map__features" d>
+          <fieldset  id="housing-features" class="map__features">
             <input type="checkbox" name="features" value="wifi" id="filter-wifi" class="map__checkbox visually-hidden">
             <label class="map__feature map__feature--wifi" for="filter-wifi">Wi-Fi</label>
             <input type="checkbox" name="features" value="dishwasher" id="filter-dishwasher" class="map__checkbox visually-hidden">
@@ -100,7 +100,7 @@
         </fieldset>
         <fieldset  class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="title">Заголовок объявления</label>
-          <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио">
+          <input id="title" name="title" type="text" minlength="30" maxlength="100" placeholder="Милая, уютная квартирка в центре Токио" required>
         </fieldset>
         <fieldset  class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес</label>
@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset  class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000">
+          <input id="price" name="price" type="number" max="1000000" placeholder="5000" required>
         </fieldset>
         <fieldset  class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
