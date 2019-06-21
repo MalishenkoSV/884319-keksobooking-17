@@ -42,8 +42,8 @@
   var activatePage = function () {
     formActive();
     window.pins.showPinsOnMap(window.ads.getAdverts());
-    fieldsetList.forEach(function () {
-      fieldsetList.disabled = false;
+    fieldsetList.forEach(function (fieldset) {
+      fieldset.disabled = false;
     });
     setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
     mainPin.removeEventListener('mouseup', activatePage);
