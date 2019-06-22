@@ -22,7 +22,7 @@
     window.variables.fieldsetList.forEach(function (fieldset) {
       fieldset.disabled = false;
     });
-    window.pins.setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH_MAX / 2);
+    setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH_MAX / 2);
     window.variables.mainPin.removeEventListener('mouseup', activatePage);
   };
 

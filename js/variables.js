@@ -17,7 +17,7 @@
   var timeoutSelect = formAdress.querySelector('#timeout');
   var formAddress = document.querySelector('.ad-form');
   var map = document.querySelector('.map');
-  var mapListElement = document.querySelector('.map__pins');
+  var mapListPinElement = document.querySelector('.map__pins');
   var mainPin = map.querySelector('.map__pin--main');
   var fieldsetList = formAdress.querySelectorAll('fieldset');
   var MinPrice = {
@@ -53,6 +53,6 @@
     Border: Border,
     fieldsetList: fieldsetList,
     pinTemplate: pinTemplate,
-    mapListElement: mapListElement
+    mapListPinElement: mapListPinElement
   };
 })();

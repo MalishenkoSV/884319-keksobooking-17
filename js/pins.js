@@ -19,12 +19,12 @@
 
   /**
  * Показать пины на карте
- * @param {Array} offerDatas - массив обьектов обьявлений
+ * @param {Array}advertOffers - массив обьектов обьявлений
  */
-  var showPinsOnMap = function (offerDatas) {
+  var showPinsOnMap = function (advertOffers) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < offerDatas.length; i++) {
-      var dataElement = createMapPin(offerDatas[i]);
+    for (var i = 0; i < advertOffers.length; i++) {
+      var dataElement = createMapPin(advertOffers[i]);
       fragment.appendChild(dataElement);
     }
     window.variables.mapListPinElement.appendChild(fragment);

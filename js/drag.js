@@ -57,7 +57,7 @@
        * добавление обработчиков
        */
     var onMouseUp = function () {
-      window.Map.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
+      window.map.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };

@@ -45,4 +45,8 @@
   window.variables.timeoutSelect.addEventListener('change', function (evt) {
     window.variables.timeinSelect.value = evt.target.value;
   });
+
+  window.form = {
+    formActive: formActive
+  };
 })();
