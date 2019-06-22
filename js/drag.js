@@ -1,59 +1,67 @@
-'use strict';
 //  drag.js
-var MAP_WIDTH = 1200;
-var MAP_HEIGTH_MIN = 130;
-var MAP_HEIGTH = 630;
-var MAP_HEIGTH_MAX = 750;
-var MAIN_PIN_WIDTH = 65;
-var MAIN_PIN_HEIGHT = 81;
-var border = {
-  left: 0,
-  right: MAP_WIDTH - MAIN_PIN_WIDTH,
-  top: MAP_HEIGTH_MIN,
-  bottom: MAP_HEIGTH_MAX - MAIN_PIN_HEIGHT
-};
-var mainPin = document.querySelector('.map__pin--main');
-mainPin.addEventListener('mousedown', function (mousedownEvt) {
-  window.activateMap.activatePage();
-  var pinStatusCoords = {
-    x: MAP_WIDTH / 2 - MAIN_PIN_WIDTH / 2,
-    y: MAP_HEIGTH / 2 - MAIN_PIN_HEIGHT
-  };
-
-  var startCoords = {
-    x: mousedownEvt.clientX,
-    y: mousedownEvt.clientY
-  };
-  var onMouseMove = function (mouseMoveEvt) {
-    var shift = {
-      x: startCoords.x - mouseMoveEvt.clientX,
-      y: startCoords.y - mouseMoveEvt.clientY
+'use strict';
+(function () {
+  /**
+   * Функция определения движения при нажатии мыши
+   * @param {'mousedown'} нажатие
+   * @param {object} mousedownEvt - начальные координаты
+   */
+  window.variables.mainPin.addEventListener('mousedown', function (mousedownEvt) {
+    window.map.activatePage();
+    var pinStatusCoords = {
+      x: window.variables.MAP_WIDTH / 2 - window.variables.MAIN_PIN_WIDTH / 2,
+      y: window.variables.MAP_HEIGTH / 2 - window.variables.MAIN_PIN_HEIGHT
+    };
+    var startCoords = {
+      x: mousedownEvt.clientX,
+      y: mousedownEvt.clientY
     };
 
-    startCoords = {
-      x: mouseMoveEvt.clientX,
-      y: mouseMoveEvt.clientY
-    };
+    /**
+     * Функция движения и координаты смещения
+     * @param {object}  mouseMoveEvt нажатие
+     */
+    var onMouseMove = function (mouseMoveEvt) {
+      var shift = {
+        x: startCoords.x - mouseMoveEvt.clientX,
+        y: startCoords.y - mouseMoveEvt.clientY
+      };
 
-    var pinCoords = {
-      x: mainPin.offsetLeft - shift.x,
-      y: mainPin.offsetTop - shift.y
+      startCoords = {
+        x: mouseMoveEvt.clientX,
+        y: mouseMoveEvt.clientY
+      };
+
+      var pinCoords = {
+        x: window.variables.mainPin.offsetLeft - shift.x,
+        y: window.variables.mainPin.offsetTop - shift.y
+      };
+
+      /**
+     * Определение ограничений пина и координаты пина
+     * @param {object}  mouseMoveEvt нажатие
+     */
+      if (pinCoords.x >= window.variables.Border.LEFT && pinCoords.x <= window.variables.Border.RIGHT) {
+        window.variables.mainPin.style.left = pinCoords.x + 'px';
+        pinStatusCoords.x = pinCoords.x + window.variables.MAIN_PIN_WIDTH / 2;
+      }
+      if (pinCoords.y >= window.variables.Border.TOP && pinCoords.y <= window.variables.Border.BOTTOM) {
+        window.variables.mainPin.style.top = pinCoords.y + 'px';
+        pinStatusCoords.y = pinCoords.y + window.variables.MAIN_PIN_HEIGHT;
+      }
+      window.activateMap.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
     };
-    if (pinCoords.x >= border.left && pinCoords.x <= border.right) {
-      mainPin.style.left = pinCoords.x + 'px';
-      pinStatusCoords.x = pinCoords.x + MAIN_PIN_WIDTH / 2;
-    }
-    if (pinCoords.y >= border.top && pinCoords.y <= border.bottom) {
-      mainPin.style.top = pinCoords.y + 'px';
-      pinStatusCoords.y = pinCoords.y + MAIN_PIN_HEIGHT;
-    }
-    window.activateMap.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
-  };
-  var onMouseUp = function () {
-    window.activateMap.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-});
+      /**
+       * Функция поднятия руки с мышки и прекращение движения
+       * определение координат пина и удаление обработчиков
+       * добавление обработчиков
+       */
+    var onMouseUp = function () {
+      window.Map.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+})();

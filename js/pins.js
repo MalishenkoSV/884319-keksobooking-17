@@ -1,4 +1,4 @@
-// pin.js
+// pins.js
 'use strict';
 (function () {
   /**
