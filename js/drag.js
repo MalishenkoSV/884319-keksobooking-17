@@ -49,7 +49,7 @@
         window.variables.mainPin.style.top = pinCoords.y + 'px';
         pinStatusCoords.y = pinCoords.y + window.variables.MAIN_PIN_HEIGHT;
       }
-      window.activateMap.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
+      window.map.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
     };
       /**
        * Функция поднятия руки с мышки и прекращение движения

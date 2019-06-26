@@ -2,10 +2,10 @@
 'use strict';
 (function () {
   /**
- * Создает и отрисовывает обьявление на карте
- * @param {object} pinData -- данные обьекта обьявления для отрисовки пина
- * @return {object} -- элемент с данными о обьявлении
- */
+   * Создает и отрисовывает обьявление на карте
+   * @param {object} pinData -- данные обьекта обьявления для отрисовки пина
+   * @return {object} -- элемент с данными о обьявлении
+   */
 
   var createMapPin = function (pinData) {
     if (pinData) {
@@ -18,18 +18,18 @@
   };
 
   /**
- * Показать пины на карте
- * @param {Array}advertOffers - массив обьектов обьявлений
- */
-  var showPinsOnMap = function (advertOffers) {
+   * Показать пины на карте
+   * @param {Array}adverts - массив обьектов обьявлений
+   */
+  var showOnMap = function () {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < advertOffers.length; i++) {
-      var dataElement = createMapPin(advertOffers[i]);
+    for (var i = 0; i < window.offer.adverts.length; i++) {
+      var dataElement = createMapPin(window.offer.adverts[i]);
       fragment.appendChild(dataElement);
     }
     window.variables.mapListPinElement.appendChild(fragment);
   };
   window.pins = {
-    showPinsOnMap: showPinsOnMap
+    showPinsOnMap: showOnMap
   };
 })();

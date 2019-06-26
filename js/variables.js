@@ -9,6 +9,24 @@
   var MAP_HEIGTH_MAX = 750;
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 81;
+  var MinPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000,
+  };
+  var RoomToGuest = {
+    ROOM_1: ['1'],
+    ROOM_2: ['1', '2'],
+    ROOM_3: ['1', '2', '3'],
+    ROOM_100: ['0'],
+  };
+  var Border = {
+    LEFT: 0,
+    RIGHT: MAP_WIDTH - MAIN_PIN_WIDTH,
+    TOP: MAP_HEIGTH_MIN,
+    BOTTOM: MAP_HEIGTH_MAX - MAIN_PIN_HEIGHT
+  };
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var formAdress = document.querySelector('.ad-form');
   var typeSelect = formAdress.querySelector('#type');
@@ -20,18 +38,9 @@
   var mapListPinElement = document.querySelector('.map__pins');
   var mainPin = map.querySelector('.map__pin--main');
   var fieldsetList = formAdress.querySelectorAll('fieldset');
-  var MinPrice = {
-    BUNGALO: 0,
-    FLAT: 1000,
-    HOUSE: 5000,
-    PALACE: 10000,
-  };
-  var Border = {
-    LEFT: 0,
-    RIGHT: MAP_WIDTH - MAIN_PIN_WIDTH,
-    TOP: MAP_HEIGTH_MIN,
-    BOTTOM: MAP_HEIGTH_MAX - MAIN_PIN_HEIGHT
-  };
+  var button = formAddress.querySelector('.ad-form__submit');
+  var roomSelect = formAddress.querySelector('#room_number');
+  var guestSelect = formAddress.querySelector('#capacity');
   window.variables = {
     COUNT: COUNT,
     TYPES: TYPES,
@@ -53,6 +62,10 @@
     Border: Border,
     fieldsetList: fieldsetList,
     pinTemplate: pinTemplate,
-    mapListPinElement: mapListPinElement
+    mapListPinElement: mapListPinElement,
+    button: button,
+    roomSelect: roomSelect,
+    guestSelect: guestSelect,
+    RoomToGuest: RoomToGuest
   };
 })();
