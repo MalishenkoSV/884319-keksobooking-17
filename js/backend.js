@@ -1,7 +1,7 @@
 // backend.js
 'use strict';
 (function () {
-  var URL_GET = 'https://js.dump.academy/keksobooking/data/?calback=data';
+  var URL_GET = 'https://js.dump.academy/keksobooking';
   var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';

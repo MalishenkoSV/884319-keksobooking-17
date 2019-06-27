@@ -1,4 +1,4 @@
-// pins.js
+// pin.js
 'use strict';
 (function () {
   /**
@@ -29,7 +29,7 @@
     }
     window.variables.mapListPinElement.appendChild(fragment);
   };
-  window.pins = {
+  window.pin = {
     showPinsOnMap: showOnMap
   };
 })();

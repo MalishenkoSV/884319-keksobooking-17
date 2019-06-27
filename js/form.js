@@ -6,7 +6,7 @@
    * удаление класса деактивации
    * удаления класса деактивации полей формы
    */
-  var formActive = function () {
+  var activeForm = function () {
     window.variables.map.classList.remove('map--faded');
     window.variables.formAdress.classList.remove('ad-form--disabled');
   };
@@ -60,16 +60,15 @@
     validateGuestAndRoom();
     evt.preventDefault();
     var formData = new FormData(evt.currentTarget);
-    window.backend.load(onFormSave, window.onerror.ShowSubmitFormError, formData);
+    window.backend.load(onFormSave, window.error.ShowSubmitError, formData);
   };
   window.variables.formAdress.addEventListener('submit', onSubmitClick);
   window.variables.button.addEventListener('click', onSubmitClick);
-  window.map.deactivatePage();
 
   var onFormSave = function () {
     window.error.showSuccessMessage();
   };
   window.form = {
-    active: formActive
+    activeForm: activeForm
   };
 })();

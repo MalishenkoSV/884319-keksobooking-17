@@ -12,7 +12,7 @@
   /**
    *  Дезактивация страницы
    */
-  var deactivatePage = function () {
+  var deactivePage = function () {
     window.variables.fieldsetList.forEach(function () {
       window.variables.fieldsetList.disabled = true;
     });
@@ -29,13 +29,13 @@
    * активация страницы по клику
    */
   var activatePage = function () {
-    window.form.active();
-    window.pins.showOnMap(window.offer.get());
+    window.form.activeForm();
     window.variables.fieldsetList.forEach(function (fieldset) {
       fieldset.disabled = false;
     });
     setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH_MAX / 2);
     window.variables.mainPin.removeEventListener('mouseup', activatePage);
+    window.pin.showPinsOnMap(window.backend.load(data));
   };
   /**
    * Функция активации страницы при клике на главную метку
@@ -43,7 +43,7 @@
   window.variables.mainPin.addEventListener('mouseup', activatePage);
   window.map = {
     activatePage: activatePage,
-    deactivatePage: deactivatePage,
+    deactivePage: deactivePage,
     setAddressCoords: setAddressCoords
   };
 })();
