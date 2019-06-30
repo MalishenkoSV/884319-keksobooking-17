@@ -23,27 +23,34 @@
   };
   /**
    * Функция активации страницы
-   * активация формы
-   * разблокирование полей формы
-   * определение координаты метки
-   * активация страницы по клику
    */
+  // var activatePage = function () {
+  //   window.form.activeForm();
+  //   window.variables.fieldsetList.forEach(function (fieldset) {
+  //     fieldset.disabled = false;
+  //   });
+  //   window.form.setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH_MAX / 2);
+  //   if (!activatePage) {
+  //     window.pin.showPinOnMap();
+  //   }
+  //   window.variables.mainPin.removeEventListener('mouseup', activatePage);
+  // };
   var activatePage = function () {
     window.form.activeForm();
-    window.variables.fieldsetList.forEach(function (fieldset) {
-      fieldset.disabled = false;
-    });
-    setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH_MAX / 2);
+    var onLoad = function (data) {
+      window.pin.showPinsOnMap(data);
+    };
+    window.backend.load(onLoad, window.error.onError);
+    window.form.setAddress(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH / 2);
     window.variables.mainPin.removeEventListener('mouseup', activatePage);
-    window.pin.showPinsOnMap(window.backend.load(data));
   };
   /**
    * Функция активации страницы при клике на главную метку
    */
   window.variables.mainPin.addEventListener('mouseup', activatePage);
   window.map = {
-    activatePage: activatePage,
-    deactivePage: deactivePage,
+    activate: activatePage,
+    deactive: deactivePage,
     setAddressCoords: setAddressCoords
   };
 })();

@@ -7,7 +7,7 @@
    * @param {object} mousedownEvt - начальные координаты
    */
   window.variables.mainPin.addEventListener('mousedown', function (mousedownEvt) {
-    window.map.activatePage();
+    window.map.activate();
     var pinStatusCoords = {
       x: window.variables.MAP_WIDTH / 2 - window.variables.MAIN_PIN_WIDTH / 2,
       y: window.variables.MAP_HEIGTH / 2 - window.variables.MAIN_PIN_HEIGHT
@@ -21,7 +21,9 @@
      * Функция движения и координаты смещения
      * @param {object}  mouseMoveEvt нажатие
      */
+    window.map.active = false;
     var onMouseMove = function (mouseMoveEvt) {
+      window.map.activate();
       var shift = {
         x: startCoords.x - mouseMoveEvt.clientX,
         y: startCoords.y - mouseMoveEvt.clientY

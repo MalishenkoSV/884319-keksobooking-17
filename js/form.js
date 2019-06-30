@@ -60,7 +60,7 @@
     validateGuestAndRoom();
     evt.preventDefault();
     var formData = new FormData(evt.currentTarget);
-    window.backend.load(onFormSave, window.error.ShowSubmitError, formData);
+    window.backend.save(onFormSave, window.error.ShowSubmitError, formData);
   };
   window.variables.formAdress.addEventListener('submit', onSubmitClick);
   window.variables.button.addEventListener('click', onSubmitClick);

@@ -1,7 +1,7 @@
 // backend.js
 'use strict';
 (function () {
-  var URL_GET = 'https://js.dump.academy/keksobooking';
+  var URL_GET = 'https://js.dump.academy/keksobooking/data';
   var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -19,7 +19,7 @@
     xhr.send();
   };
   var save = function (data, onSuccess, onError) {
-    var URL_POST = 'https://js.dump.academy/keksobooking/data';
+    var URL_POST = 'https://js.dump.academy/keksobooking';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {

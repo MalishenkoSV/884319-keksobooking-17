@@ -21,15 +21,16 @@
    * Показать пины на карте
    * @param {Array}adverts - массив обьектов обьявлений
    */
-  var showOnMap = function () {
+  var showPinOnMap = function () {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.offer.adverts.length; i++) {
-      var dataElement = createMapPin(window.offer.adverts[i]);
+    var offers = window.offer.get();
+    for (var i = 0; i < offers.length; i++) {
+      var dataElement = createMapPin(offers[i]);
       fragment.appendChild(dataElement);
     }
     window.variables.mapListPinElement.appendChild(fragment);
   };
   window.pin = {
-    showPinsOnMap: showOnMap
+    showPinOnMap: showPinOnMap
   };
 })();
