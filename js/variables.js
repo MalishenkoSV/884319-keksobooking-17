@@ -9,6 +9,13 @@
   var MAP_HEIGTH_MAX = 750;
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 81;
+  var NUMBER_PINS = 5;
+  var housingType = {
+    BUNGALO: 'Бунгало',
+    PALACE: 'Дворец',
+    FLAT: 'Квартира',
+    HOUSE: 'Дом',
+  };
   var MinPrice = {
     BUNGALO: 0,
     FLAT: 1000,
@@ -41,6 +48,9 @@
   var button = formAddress.querySelector('.ad-form__submit');
   var roomSelect = formAddress.querySelector('#room_number');
   var guestSelect = formAddress.querySelector('#capacity');
+  var filtersContainer = document.querySelector('.map__filters-container');
+  var template = document.querySelector('#card').content.querySelector('.map__card');
+  var mapListCardElement = document.querySelector('.map');
   window.variables = {
     COUNT: COUNT,
     TYPES: TYPES,
@@ -50,6 +60,7 @@
     MAP_HEIGTH_MAX: MAP_HEIGTH_MAX,
     MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
     MAIN_PIN_HEIGHT: MAIN_PIN_HEIGHT,
+    NUMBER_PINS: NUMBER_PINS,
     formAdress: formAdress,
     typeSelect: typeSelect,
     priceSelect: priceSelect,
@@ -66,6 +77,10 @@
     button: button,
     roomSelect: roomSelect,
     guestSelect: guestSelect,
-    RoomToGuest: RoomToGuest
+    RoomToGuest: RoomToGuest,
+    housingType: housingType,
+    filtersContainer: filtersContainer,
+    template: template,
+    mapListCardElement: mapListCardElement
   };
 })();

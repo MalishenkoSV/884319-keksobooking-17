@@ -23,7 +23,7 @@
    */
   var showPinOnMap = function (offers) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < offers.length; i++) {
+    for (var i = 0; i < window.variables.NUMBER_PINS; i++) {
       var dataElement = createMapPin(offers[i]);
       fragment.appendChild(dataElement);
     }

@@ -21,6 +21,11 @@
     window.variables.mapListElement.classList.add('map--faded');
     window.variables.formAddress.classList.add('ad-form--disabled');
   };
+
+  // var pins = [];
+  // var onLoad = function (data) {
+  //   pins = data;
+  // };
   var activatePage = function () {
     window.form.activeForm();
     window.variables.fieldsetList.forEach(function (fieldset) {

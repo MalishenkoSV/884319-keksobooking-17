@@ -55,19 +55,17 @@
       window.variables.roomSelect.setCustomValidity('Количество гостей больше возможного');
     }
   };
-
+  var onFormSave = function () {
+    window.popup.showSuccessMessage();
+  };
   var onSubmitClick = function (evt) {
     validateGuestAndRoom();
     evt.preventDefault();
     var formData = new FormData(evt.currentTarget);
-    window.backend.save(onFormSave, window.error.ShowSubmitError, formData);
+    window.backend.save(formData, onFormSave, window.popup.showSubmitError);
   };
   window.variables.formAdress.addEventListener('submit', onSubmitClick);
-  window.variables.button.addEventListener('click', onSubmitClick);
 
-  var onFormSave = function () {
-    window.error.showSuccessMessage();
-  };
   window.form = {
     activeForm: activeForm
   };

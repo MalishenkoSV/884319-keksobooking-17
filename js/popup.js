@@ -53,7 +53,7 @@
     errorBlock.addEventListener('click', closeErrorMessageOnClick);
   };
 
-  window.error = {
+  window.popup = {
     showSuccessMessage: showSuccessMessage,
     showSubmitFormError: showSubmitFormError
   };
