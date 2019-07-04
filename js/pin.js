@@ -19,11 +19,10 @@
 
   /**
    * Показать пины на карте
-   * @param {Array}adverts - массив обьектов обьявлений
+   * @param {Array} offers - массив обьектов обьявлений
    */
-  var showPinOnMap = function () {
+  var showPinOnMap = function (offers) {
     var fragment = document.createDocumentFragment();
-    var offers = window.offer.get();
     for (var i = 0; i < offers.length; i++) {
       var dataElement = createMapPin(offers[i]);
       fragment.appendChild(dataElement);

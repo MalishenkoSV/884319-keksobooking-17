@@ -21,9 +21,9 @@
      * Функция движения и координаты смещения
      * @param {object}  mouseMoveEvt нажатие
      */
-    window.map.active = false;
+    window.map.activate = false;
     var onMouseMove = function (mouseMoveEvt) {
-      window.map.activate();
+      window.map.activate = true;
       var shift = {
         x: startCoords.x - mouseMoveEvt.clientX,
         y: startCoords.y - mouseMoveEvt.clientY

@@ -1,4 +1,4 @@
-// map-manage.js
+// map.js
 'use strict';
 (function () {
   /**
@@ -21,27 +21,16 @@
     window.variables.mapListElement.classList.add('map--faded');
     window.variables.formAddress.classList.add('ad-form--disabled');
   };
-  /**
-   * Функция активации страницы
-   */
-  // var activatePage = function () {
-  //   window.form.activeForm();
-  //   window.variables.fieldsetList.forEach(function (fieldset) {
-  //     fieldset.disabled = false;
-  //   });
-  //   window.form.setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH_MAX / 2);
-  //   if (!activatePage) {
-  //     window.pin.showPinOnMap();
-  //   }
-  //   window.variables.mainPin.removeEventListener('mouseup', activatePage);
-  // };
   var activatePage = function () {
     window.form.activeForm();
+    window.variables.fieldsetList.forEach(function (fieldset) {
+      fieldset.disabled = false;
+    });
     var onLoad = function (data) {
-      window.pin.showPinsOnMap(data);
+      window.pin.showPinOnMap(data);
     };
     window.backend.load(onLoad, window.error.onError);
-    window.form.setAddress(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH / 2);
+    setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH / 2);
     window.variables.mainPin.removeEventListener('mouseup', activatePage);
   };
   /**
