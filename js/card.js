@@ -92,7 +92,7 @@
     if (advertOffer.offer.photos) {
       advertTemplate.querySelector('.popup__photos').innerHTML = '';
       var fragmentForPhotos = document.createDocumentFragment();
-      for (var j = 0; j < advertOffer.offer.photos.length; j++) {
+      advertOffer.offer.photos.forEach(function (j) {
         var photo = document.createElement('img');
         photo.classList.add('popup__photo');
         photo.src = advertOffer.offer.photos[j];
@@ -100,8 +100,8 @@
         photo.height = 40;
         photo.alt = 'Фотография жилья';
         fragmentForPhotos.appendChild(photo);
-        advertTemplate.querySelector('.popup__photos').appendChild(fragmentForPhotos);
-      }
+      });
+      advertTemplate.querySelector('.popup__photos').appendChild(fragmentForPhotos);
     } else {
       advertTemplate.querySelector('.popup__photos').remove();
     }
