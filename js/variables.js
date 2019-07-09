@@ -2,7 +2,6 @@
 'use strict';
 (function () {
   var COUNT = 8;
-  var TYPES = ['place', 'flat', 'house', 'bungalo'];
   var MAP_WIDTH = 1200;
   var MAP_HEIGTH_MIN = 130;
   var MAP_HEIGTH = 630;
@@ -10,6 +9,17 @@
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 81;
   var NUMBER_PINS = 5;
+  var PRICE_MIN = 1000;
+  var PRICE_MAX = 1000000;
+  var ROOMS_MAX = 5;
+  var ROOMS_MIN = 1;
+  var GUESTS_MIN = 1;
+  var GUESTS_MAX = 7;
+  var CHECKIN_TIME = ['12:00', '13:00', '14:00'];
+  var CHECKOUT_TIME = ['12:00', '13:00', '14:00'];
+  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  var TYPES = ['place', 'flat', 'house', 'bungalo'];
+  var TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
   var housingType = {
     BUNGALO: 'Бунгало',
     PALACE: 'Дворец',
@@ -49,8 +59,10 @@
   var roomSelect = formAddress.querySelector('#room_number');
   var guestSelect = formAddress.querySelector('#capacity');
   var filtersContainer = document.querySelector('.map__filters-container');
+  var filtersHouse = document.querySelector('.map__filters');
   var template = document.querySelector('#card').content.querySelector('.map__card');
   var mapListCardElement = document.querySelector('.map');
+
   window.variables = {
     COUNT: COUNT,
     TYPES: TYPES,
@@ -61,6 +73,16 @@
     MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
     MAIN_PIN_HEIGHT: MAIN_PIN_HEIGHT,
     NUMBER_PINS: NUMBER_PINS,
+    TITLES: TITLES,
+    PRICE_MAX: PRICE_MAX,
+    PRICE_MIN: PRICE_MIN,
+    ROOMS_MAX: ROOMS_MAX,
+    ROOMS_MIN: ROOMS_MIN,
+    GUESTS_MAX: GUESTS_MAX,
+    GUESTS_MIN: GUESTS_MIN,
+    CHECKIN_TIME: CHECKIN_TIME,
+    CHECKOUT_TIME: CHECKOUT_TIME,
+    FEATURES: FEATURES,
     formAdress: formAdress,
     typeSelect: typeSelect,
     priceSelect: priceSelect,
@@ -81,6 +103,7 @@
     housingType: housingType,
     filtersContainer: filtersContainer,
     template: template,
-    mapListCardElement: mapListCardElement
+    mapListCardElement: mapListCardElement,
+    filtersHouse: filtersHouse
   };
 })();

@@ -22,25 +22,22 @@
     window.variables.formAddress.classList.add('ad-form--disabled');
   };
 
-  // var pins = [];
-  // var onLoad = function (data) {
-  //   pins = data;
-  // };
+  /**
+   * Функция активации страницы при клике на главную метку
+   */
+
   var activatePage = function () {
     window.form.activeForm();
     window.variables.fieldsetList.forEach(function (fieldset) {
       fieldset.disabled = false;
     });
     var onLoad = function (data) {
-      window.pin.showPinOnMap(data);
+      window.filter.adverts = data;
     };
     window.backend.load(onLoad, window.error.onError);
     setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH / 2);
     window.variables.mainPin.removeEventListener('mouseup', activatePage);
   };
-  /**
-   * Функция активации страницы при клике на главную метку
-   */
   window.variables.mainPin.addEventListener('mouseup', activatePage);
   window.map = {
     activate: activatePage,

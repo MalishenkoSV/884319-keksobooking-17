@@ -14,6 +14,10 @@
       window.variables.pinTemplate.querySelector('img').src = pinData.author.avatar;
       window.variables.pinTemplate.querySelector('img').alt = pinData.offer.type;
     }
+    window.variablesmapPinTemplate.addEventListener('click', function () {
+      window.card.showCardOnMap(pinData);
+      window.variablesmapPinTemplate.classList.add('map__pin--active');
+    });
     return pinCloneElement;
   };
 
