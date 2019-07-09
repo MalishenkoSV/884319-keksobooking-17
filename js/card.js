@@ -2,9 +2,9 @@
 'use strict';
 (function () {
   /**
-   * Функция coздания обьявления
+   * Функция coздания объявления
    * @param {number} k - число
-   * @return {object} advertObject - обьект с данными обьявления
+   * @return {object} advertObject - объект с данными объявления
    */
   var createAdvert = function (k) {
     var x = window.variables.getRandomIntegerFromInterval(0, window.variables.MAP_WIDTH);
@@ -34,15 +34,18 @@
     return advertObject;
   };
 
+  /**
+   * Функция создания массива из объектов объявлений
+   */
   var adverts = [];
   for (var i = 0; i < window.util.COUNT; i++) {
     var advert = createAdvert(i);
     adverts.push(advert);
   }
   /**
-   * Функция cоздания обьявления
-   * @param {object} advertOffer - данные о будущем обьявлении
-   * @return {object} advertTemplate - клонированные данные обьявления
+   * Функция cоздания объявления
+   * @param {object} advertOffer - данные о будущем объявлении
+   * @return {object} advertTemplate - клонированные данные объявления
    */
   var renderAdvert = function (advertOffer) {
     var advertTemplate = window.variables.template.cloneNode(true);
@@ -106,7 +109,7 @@
     advertTemplate.querySelector('.popup__avatar').src = advertOffer.author.avatar;
     advertTemplate.querySelector('.popup__type').textContent = window.variables.PlaceType[advertOffer.offer.type.toUpperCase()];
     advertTemplate.querySelector('.popup__close').addEventListener('click', closePopup);
-    advertTemplate.querySelector('.popup__close').addEventListener('keydown', onPopupEnterPress);
+    advertTemplate.querySelector('.popup__close').addEventListener('keydown', onPopupEnterPressClose);
 
     return advertTemplate;
   };
@@ -116,15 +119,14 @@
       closePopup();
     }
   };
-  var onPopupEnterPress = function (evt) {
+  var onPopupEnterPressClose = function (evt) {
     if (evt.keyCode === window.variables.ENTER_KEYCODE) {
       closePopup();
     }
   };
   var closePopup = function () {
-    var card = document.querySelector('.map__card.popup');
-    if (card) {
-      card.remove();
+    if (window.variables.card) {
+      window.variables.card.remove();
     }
     document.removeEventListener('keydown', onPopupEscPress);
   };
@@ -133,7 +135,6 @@
     var cardAdd = renderAdvert(advertOffer);
     window.variables.mapListCardElement.insertBefore(cardAdd, window.variables.filtersContainer);
     document.addEventListener('keydown', onPopupEscPress);
-
   };
   window.card = {
     showCardOnMap: showCardOnMap

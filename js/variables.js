@@ -62,6 +62,8 @@
   var filtersHouse = document.querySelector('.map__filters');
   var template = document.querySelector('#card').content.querySelector('.map__card');
   var mapListCardElement = document.querySelector('.map');
+  var card = document.querySelector('.map__card.popup');
+  var resetPage = formAdress.querySelector('.ad-form__reset');
 
   window.variables = {
     COUNT: COUNT,
@@ -104,6 +106,8 @@
     filtersContainer: filtersContainer,
     template: template,
     mapListCardElement: mapListCardElement,
-    filtersHouse: filtersHouse
+    filtersHouse: filtersHouse,
+    card: card,
+    resetPage: resetPage
   };
 })();

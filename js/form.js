@@ -63,6 +63,9 @@
     evt.preventDefault();
     var formData = new FormData(evt.currentTarget);
     window.backend.save(formData, onFormSave, window.popup.showSubmitError);
+    if (onFormSave) {
+      window.map.deactivePage();
+    }
   };
   window.variables.formAdress.addEventListener('submit', onSubmitClick);
 

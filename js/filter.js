@@ -14,6 +14,8 @@
       }
     });
   };
+  // window.ads.filter(typeFilter).filter(numRoomsFilter).filter(numGuestsFilter)
+  //     .filter(numPricesFilter).filter(featuresFilter).slice(0, MAX_NUM_PINS).forEach(function (ads) { ......
   window.filter = {
     filterPins: filterPins,
     adverts: adverts
