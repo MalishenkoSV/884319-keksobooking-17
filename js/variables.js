@@ -2,6 +2,8 @@
 'use strict';
 (function () {
   var COUNT = 8;
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
   var MAP_WIDTH = 1200;
   var MAP_HEIGTH_MIN = 130;
   var MAP_HEIGTH = 630;
@@ -15,6 +17,11 @@
   var ROOMS_MIN = 1;
   var GUESTS_MIN = 1;
   var GUESTS_MAX = 7;
+  var TIMEOUT_LOAD = 1000;
+  var STATUS_LOAD = 200;
+  var PIN_CLASS = 'map__pin';
+  var PIN_ACTIVE_CLASS = 'map__pin--active';
+  var PIN_MAIN_CLASS = 'map__pin--main';
   var CHECKIN_TIME = ['12:00', '13:00', '14:00'];
   var CHECKOUT_TIME = ['12:00', '13:00', '14:00'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -53,6 +60,7 @@
   var formAddress = document.querySelector('.ad-form');
   var map = document.querySelector('.map');
   var mapListPinElement = document.querySelector('.map__pins');
+  var pin = mapListPinElement.querySelector('.map__pin');
   var mainPin = map.querySelector('.map__pin--main');
   var fieldsetList = formAdress.querySelectorAll('fieldset');
   var button = formAddress.querySelector('.ad-form__submit');
@@ -63,8 +71,8 @@
   var template = document.querySelector('#card').content.querySelector('.map__card');
   var mapListCardElement = document.querySelector('.map');
   var card = document.querySelector('.map__card.popup');
-  var resetPage = formAdress.querySelector('.ad-form__reset');
-
+  var resetForm = formAdress.querySelector('.ad-form__reset');
+  var activePin = document.querySelector('.' + PIN_ACTIVE_CLASS);
   window.variables = {
     COUNT: COUNT,
     TYPES: TYPES,
@@ -85,6 +93,14 @@
     CHECKIN_TIME: CHECKIN_TIME,
     CHECKOUT_TIME: CHECKOUT_TIME,
     FEATURES: FEATURES,
+    PIN_CLASS: PIN_CLASS,
+    PIN_ACTIVE_CLASS: PIN_ACTIVE_CLASS,
+    PIN_MAIN_CLASS: PIN_MAIN_CLASS,
+    ESC_KEYCODE: ESC_KEYCODE,
+    ENTER_KEYCODE: ENTER_KEYCODE,
+    TIMEOUT_LOAD: TIMEOUT_LOAD,
+    STATUS_LOAD: STATUS_LOAD,
+    activePin: activePin,
     formAdress: formAdress,
     typeSelect: typeSelect,
     priceSelect: priceSelect,
@@ -94,6 +110,7 @@
     mainPin: mainPin,
     formAddress: formAddress,
     map: map,
+    pin: pin,
     Border: Border,
     fieldsetList: fieldsetList,
     pinTemplate: pinTemplate,
@@ -108,6 +125,6 @@
     mapListCardElement: mapListCardElement,
     filtersHouse: filtersHouse,
     card: card,
-    resetPage: resetPage
+    resetForm: resetForm
   };
 })();

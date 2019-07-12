@@ -3,36 +3,21 @@
 (function () {
   /**
    * Создает и отрисовывает объявление на карте
-   * @param {object} pinData -- данные объекта объявления для отрисовки пина
+   * @param {object} advertData -- данные объекта объявления для отрисовки пина
    * @return {object} -- элемент с данными о объявлении
    */
-
-  var createMapPin = function (pinData) {
-    if (pinData) {
-      var pinCloneElement = window.variables.pinTemplate.cloneNode(true);
-      if (pinData.address) {
-        window.variables.pinTemplate.style = 'left:' + pinData.location.x + 'px;top:' + pinData.location.y + 'px;';
-      } else {
-        window.variables.pinTemplate.remove();
-      }
-      if (pinData.author) {
-        window.variables.pinTemplate.querySelector('img').src = pinData.author.avatar;
-      } else {
-        window.variables.pinTemplate.remove();
-      }
-      if (pinData.offer) {
-        window.variables.pinTemplate.querySelector('img').alt = pinData.offer.type;
-      } else {
-        window.variables.pinTemplate.remove();
-      }
+  var createMapPin = function (advertData) {
+    var mapPinTemplate = window.variables.pinTemplate.cloneNode(true);
+    if (advertData) {
+      mapPinTemplate.style = 'left:' + advertData.location.x + 'px; top:' + advertData.location.y + 'px;';
+      mapPinTemplate.querySelector('img').src = advertData.author.avatar;
+      mapPinTemplate.querySelector('img').alt = advertData.offer.title;
+      mapPinTemplate.addEventListener('click', function () {
+        window.card.showCardOnMap(advertData);
+      });
     }
-    // window.variables.mapPinTemplate.addEventListener('click', function () {
-    //   window.card.showCardOnMap(pinData);
-    //   window.variables.mapPinTemplate.classList.add('map__pin--active');
-    // });
-    return pinCloneElement;
+    return mapPinTemplate;
   };
-
   /**
    * Показать пины на карте
    * @param {Array} offers - массив объектов объявлений
@@ -45,7 +30,29 @@
     }
     window.variables.mapListPinElement.appendChild(fragment);
   };
+
+  var resetActivePin = function () {
+    if (window.variables.activePin) {
+      window.variables.activePin.classList.remove(window.variables.PIN_ACTIVE_CLASS);
+    }
+  };
+  var setActivePin = function (element) {
+    if (element.classList.contains(window.variables.PIN_MAIN_CLASS)) {
+      return;
+    }
+    var activePin = document.querySelector('.' + window.variables.PIN_ACTIVE_CLASS);
+
+    if (activePin && element !== activePin) {
+      activePin.classList.remove(window.variables.PIN_ACTIVE_CLASS);
+    }
+
+    element.classList.add(window.variables.PIN_ACTIVE_CLASS);
+    window.variables.activePin.addEventListener('keydown', window.card.showCardOnMaps);
+  };
+  window.variables.pin.addEventListener('focus', window.card.setActivePin);
   window.pin = {
-    showPinOnMap: showPinOnMap
+    showPinOnMap: showPinOnMap,
+    setActivePin: setActivePin,
+    resetActivePin: resetActivePin
   };
 })();

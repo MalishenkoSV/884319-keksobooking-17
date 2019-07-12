@@ -43,7 +43,7 @@
   var validateGuestAndRoom = function () {
     var rooms = window.variables.RoomToGuest['ROOM_' + window.variables.roomSelect.value];
     var isMatch = false;
-    for (var i = 0; i < rooms.length; i++) {
+    for (i = 0; i < rooms.length; i++) {
       if (rooms[i] === window.variables.guestSelect.value) {
         isMatch = true;
         break;
@@ -52,7 +52,7 @@
     if (isMatch) {
       window.variables.roomSelect.setCustomValidity('');
     } else {
-      window.variables.roomSelect.setCustomValidity('Количество гостей больше возможного');
+      window.variables. roomSelect.setCustomValidity('Количество гостей больше возможного');
     }
   };
   var onFormSave = function () {

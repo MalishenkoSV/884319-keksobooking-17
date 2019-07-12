@@ -108,33 +108,34 @@
     advertTemplate.classList.remove('.popup__avatar');
     advertTemplate.querySelector('.popup__avatar').src = advertOffer.author.avatar;
     advertTemplate.querySelector('.popup__type').textContent = window.variables.PlaceType[advertOffer.offer.type.toUpperCase()];
-    advertTemplate.querySelector('.popup__close').addEventListener('click', closePopup);
+    advertTemplate.querySelector('.popup__close').addEventListener('click', closeCard);
     advertTemplate.querySelector('.popup__close').addEventListener('keydown', onPopupEnterPressClose);
 
     return advertTemplate;
   };
 
-  var onPopupEscPress = function (evt) {
+  var closeCardOnEscPress = function (evt) {
     if (evt.keyCode === window.variables.ESC_KEYCODE) {
-      closePopup();
+      closeCard();
     }
   };
   var onPopupEnterPressClose = function (evt) {
     if (evt.keyCode === window.variables.ENTER_KEYCODE) {
-      closePopup();
+      closeCard();
     }
   };
-  var closePopup = function () {
+  var closeCard = function () {
     if (window.variables.card) {
       window.variables.card.remove();
     }
-    document.removeEventListener('keydown', onPopupEscPress);
+    document.removeEventListener('keydown', closeCardOnEscPress);
   };
   var showCardOnMap = function (advertOffer) {
-    closePopup();
+    closeCard();
+    window.map.clearAdd();
     var cardAdd = renderAdvert(advertOffer);
     window.variables.mapListCardElement.insertBefore(cardAdd, window.variables.filtersContainer);
-    document.addEventListener('keydown', onPopupEscPress);
+    document.addEventListener('keydown', closeCardOnEscPress);
   };
   window.card = {
     showCardOnMap: showCardOnMap
