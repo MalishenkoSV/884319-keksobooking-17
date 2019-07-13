@@ -28,7 +28,7 @@
   var getAdverts = function () {
     var adverts = [];
     for (var i = 0; i < window.variables.COUNT; i++) {
-      var advert = createData(i);
+      var advert = createData(adverts[i]);
       adverts.push(advert);
     }
     return adverts;

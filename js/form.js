@@ -2,17 +2,11 @@
 'use strict';
 (function () {
   /**
-   *  Блокировка полей
-   */
-  window.variables.fieldsetList.forEach(function () {
-    window.variables.fieldsetList.disabled = true;
-  });
-  /**
    * Функция активации карты
    * удаление класса деактивации
    * удаления класса деактивации полей формы
    */
-  var formActive = function () {
+  var activeForm = function () {
     window.variables.map.classList.remove('map--faded');
     window.variables.formAdress.classList.remove('ad-form--disabled');
   };
@@ -46,7 +40,36 @@
     window.variables.timeinSelect.value = evt.target.value;
   });
 
+  var validateGuestAndRoom = function () {
+    var rooms = window.variables.RoomToGuest['ROOM_' + window.variables.roomSelect.value];
+    var isMatch = false;
+    for (i = 0; i < rooms.length; i++) {
+      if (rooms[i] === window.variables.guestSelect.value) {
+        isMatch = true;
+        break;
+      }
+    }
+    if (isMatch) {
+      window.variables.roomSelect.setCustomValidity('');
+    } else {
+      window.variables. roomSelect.setCustomValidity('Количество гостей больше возможного');
+    }
+  };
+  var onFormSave = function () {
+    window.popup.showSuccessMessage();
+  };
+  var onSubmitClick = function (evt) {
+    validateGuestAndRoom();
+    evt.preventDefault();
+    var formData = new FormData(evt.currentTarget);
+    window.backend.save(formData, onFormSave, window.popup.showSubmitError);
+    if (onFormSave) {
+      window.map.deactivePage();
+    }
+  };
+  window.variables.formAdress.addEventListener('submit', onSubmitClick);
+
   window.form = {
-    formActive: formActive
+    activeForm: activeForm
   };
 })();

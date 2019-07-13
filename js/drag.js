@@ -7,7 +7,7 @@
    * @param {object} mousedownEvt - начальные координаты
    */
   window.variables.mainPin.addEventListener('mousedown', function (mousedownEvt) {
-    window.map.activatePage();
+    mousedownEvt.preventDefault();
     var pinStatusCoords = {
       x: window.variables.MAP_WIDTH / 2 - window.variables.MAIN_PIN_WIDTH / 2,
       y: window.variables.MAP_HEIGTH / 2 - window.variables.MAIN_PIN_HEIGHT
@@ -21,7 +21,9 @@
      * Функция движения и координаты смещения
      * @param {object}  mouseMoveEvt нажатие
      */
+    window.map.activate = false;
     var onMouseMove = function (mouseMoveEvt) {
+      window.map.activate = true;
       var shift = {
         x: startCoords.x - mouseMoveEvt.clientX,
         y: startCoords.y - mouseMoveEvt.clientY
@@ -49,7 +51,7 @@
         window.variables.mainPin.style.top = pinCoords.y + 'px';
         pinStatusCoords.y = pinCoords.y + window.variables.MAIN_PIN_HEIGHT;
       }
-      window.activateMap.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
+      window.map.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
     };
       /**
        * Функция поднятия руки с мышки и прекращение движения
