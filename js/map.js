@@ -43,20 +43,8 @@
    */
   var adverts = [];
   var onLoad = function (data) {
-    adverts = data.slice();
-    // var offers = window.filter.filterAds(adverts);
-    window.pin.showPinOnMap(adverts);
+    adverts = data;
   };
-
-  var fetchAds = function () {
-    window.backend.load(onLoad, window.popup.onError);
-  };
-  /**
-   * updateMap - Перерисовывает элементы 'Метка объявления' на основе
-   * отфильтрованных объявлений.
-   *
-   */
-  var ads = [];
   var updateMap = function () {
     // Закрывает открытый элемeнт 'Карточка объявления'
     if (window.map.card) {
@@ -69,13 +57,13 @@
 
     // 'Перемешивает' массив объявлений случайным обазом, чтобы при выборе опции 'любой'
     // отображались случайные элементы
-    ads = window.util.mixArray(fetchAds(adverts));
+    window.backend.load(onLoad, window.popup.showErrorMessage);
 
     // Фильтрует объявления и создает массив отфильтрованных объявлений
-    var filteredAds = window.filter.filterAds(ads);
+    var filteredAds = window.filter.filterAds(adverts);
 
     // Добавляет DOM-элементы 'Метка объявления' на страницу
-    window.pin.showPinOnMap(filteredAds(pins));
+    window.pin.showPinOnMap(filteredAds);
   };
   /**
    * Функция активации страницы при клике на главную метку
