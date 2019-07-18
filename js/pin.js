@@ -1,6 +1,7 @@
 // pin.js
 'use strict';
 (function () {
+  var MAX_NUM_PINS = 5;
   /**
    * Создает и отрисовывает объявление на карте
    * @param {object} advertData -- данные объекта объявления для отрисовки пина
@@ -24,18 +25,25 @@
    */
   var showPinOnMap = function (offers) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < window.variables.COUNT; i++) {
-      var dataElement = createMapPin(offers[i]);
-      fragment.appendChild(dataElement);
+    for (var i = 0; i < MAX_NUM_PINS; i++) {
+      var pin = createMapPin(offers[i]);
+      fragment.appendChild(pin);
     }
     window.variables.mapListPinElement.appendChild(fragment);
   };
-
+  /**
+   * Сброс активации пинов
+   */
   var resetActivePin = function () {
     if (window.variables.activePin) {
       window.variables.activePin.classList.remove(window.variables.PIN_ACTIVE_CLASS);
     }
   };
+
+  /**
+   * Показать пины на карте
+   * @param {Array} element  - элемент
+   */
   var setActivePin = function (element) {
     if (element.classList.contains(window.variables.PIN_MAIN_CLASS)) {
       return;

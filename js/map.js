@@ -1,6 +1,16 @@
 // map.js
 'use strict';
 (function () {
+  var MAP_WIDTH = 1200;
+  var MAP_HEIGTH = 630;
+  var MAP_HEIGTH_MAX = 750;
+  var map = document.querySelector('.map');
+  var mainPin = map.querySelector('.map__pin--main');
+  // var avatarChooser = window.form.formAdress.querySelector('#avatar');
+  // var photoChooser = window.form.formAdress.querySelector('#images');
+  // var avatarPreview = window.form.formAdress.querySelector('.notice__preview').querySelector('img');
+  // var photoPreview = window.form.formAdress.querySelector('.form__photo-container');
+  // var photos = [];
   /**
    * Функция определения координаты адресса пина
    * @param {number} x - по горизонтали,
@@ -10,57 +20,66 @@
     window.variables.formAdress.querySelector('#address').value = x + ', ' + y;
   };
   /**
-  *  Дезактивация страницы
-  */
-  var deactivePage = function () {
-    window.variables.fieldsetList.forEach(function () {
-      window.variables.fieldsetList.disabled = true;
-    });
-    setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH_MAX / 2);
+   *  Деактивация страницы
+   */
+  var pins = [];
+  var deactivatePage = function () {
+    setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
     window.variables.formAdress.reset();
     window.pin.resetActivePin();
-    window.variables.map.classList.add('map--faded');
-    window.variables.formAddress.classList.add('ad-form--disabled');
-    window.variables.cards.forEach(function (element) {
-      if (!element.classList.contains('hidden')) {
-        element.classList.add('hidden');
-      }
+    if (window.map.card) {
+      window.map.card.remove();
+    }
+    window.form.deactivateForm();
+    pins.forEach(function (pin) {
+      pin.remove();
     });
+    mainPin.addEventListener('mouseup', activatePage);
   };
-  window.variables.resetForm.addEventListener('click', deactivePage);
+  window.variables.resetForm.addEventListener('keydown', deactivatePage);
 
-
+  /**
+   *  Деактивация страницы
+   */
+  var adverts = [];
   var onLoad = function (data) {
-    var adverts = [];
-    adverts = data.slice();
-    adverts.forEach(function (i) {
-      adverts.push(adverts[i]);
-    });
-    window.pin.showPinOnMap(adverts);
+    adverts = data;
   };
-  var fetchAds = function () {
-    window.backend.load(onLoad, window.error.onError);
+  var updateMap = function () {
+    // Закрывает открытый элемeнт 'Карточка объявления'
+    if (window.map.card) {
+      window.map.card.close();
+    }
+    // Удаляет существующие элементы 'Метка объявления'
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
+
+    // 'Перемешивает' массив объявлений случайным обазом, чтобы при выборе опции 'любой'
+    // отображались случайные элементы
+    window.backend.load(onLoad, window.popup.showErrorMessage);
+
+    // Фильтрует объявления и создает массив отфильтрованных объявлений
+    var filteredAds = window.filter.filterAds(adverts);
+
+    // Добавляет DOM-элементы 'Метка объявления' на страницу
+    window.pin.showPinOnMap(filteredAds);
   };
   /**
    * Функция активации страницы при клике на главную метку
    */
-
   var activatePage = function () {
-    if (window.variables.map.classList.contains('map--active')) {
-      return;
-    }
-    window.variables.fieldsetList.forEach(function (fieldset) {
-      fieldset.disabled = false;
-    });
-    fetchAds();
-    setAddressCoords(window.variables.MAP_WIDTH / 2, window.variables.MAP_HEIGTH / 2);
-    window.form.activeForm();
-    window.variables.mainPin.removeEventListener('mouseup', activatePage);
+    updateMap();
+    setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH / 2);
+    window.form.activateForm();
+    // Разрешает мультизагрузку файлов
+    // photoChooser.multiple = 'multiple';
+    mainPin.removeEventListener('mouseup', activatePage);
   };
-  window.variables.mainPin.addEventListener('mouseup', activatePage);
   window.map = {
-    activate: activatePage,
-    deactive: deactivePage,
-    setAddressCoords: setAddressCoords
+    activatePage: activatePage,
+    deactivatePage: deactivatePage,
+    setAddressCoords: setAddressCoords,
+    updateMap: updateMap
   };
 })();
