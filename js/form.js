@@ -1,16 +1,55 @@
 // form.js
 'use strict';
 (function () {
+  var mapFiltersList = document.querySelector('.map__filters');
+  var selectsList = mapFiltersList.querySelectorAll('select');
+  var formAddress = document.querySelector('.ad-form');
+  var fieldsetsList = formAddress.querySelectorAll('fieldset');
+  var map = document.querySelector('.map');
+  var typeSelect = formAddress.querySelector('#type');
+  var priceSelect = formAddress.querySelector('#price');
+  var timeinSelect = formAddress.querySelector('#timein');
+  var timeoutSelect = formAddress.querySelector('#timeout');
+  var roomSelect = formAddress.querySelector('#room_number');
+  var guestSelect = formAddress.querySelector('#capacity');
+  var MinPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000,
+  };
+  var RoomToGuest = {
+    ROOM_1: ['1'],
+    ROOM_2: ['1', '2'],
+    ROOM_3: ['1', '2', '3'],
+    ROOM_100: ['0'],
+  };
   /**
    * Функция активации карты
    * удаление класса деактивации
    * удаления класса деактивации полей формы
    */
-  var activeForm = function () {
-    window.variables.map.classList.remove('map--faded');
-    window.variables.formAdress.classList.remove('ad-form--disabled');
-  };
 
+  var disableForm = function () {
+    fieldsetsList.forEach(function (fieldset) {
+      fieldset.disabled = true;
+    });
+    selectsList.forEach(function (select) {
+      select.disabled = true;
+    });
+  };
+  var activateForm = function () {
+    map.classList.remove('map--faded');
+    formAddress.classList.remove('ad-form--disabled');
+    mapFiltersList.classList.remove('ad-form--disabled');
+    disableForm(false);
+  };
+  var deactivateForm = function () {
+    map.classList.add('map--faded');
+    formAddress.classList.add('ad-form--disabled');
+    mapFiltersList.classList.add('ad-form--disabled');
+    disableForm();
+  };
   /**
    * Функция определения координат адресса метки
    * @param {number} x -- координата по горизонтали
@@ -20,56 +59,67 @@
    * Функция обработчик события изменений на поле цены
    * значение мин цены берется из перечисления
    */
-  window.variables.typeSelect.addEventListener('change', function () {
-    window.variables.priceSelect.min = window.variables.MinPrice[window.variables.typeSelect.value.toUpperCase()];
-    window.variables.priceSelect.placeholder = window.variables.MinPrice[window.variables.typeSelect.value.toUpperCase()];
+  typeSelect.addEventListener('change', function () {
+    priceSelect.min = MinPrice[typeSelect.value.toUpperCase()];
+    priceSelect.placeholder = MinPrice[typeSelect.value.toUpperCase()];
   });
   /**
    * Функция - обработчик события изменения на поле заезда
    * @param {Event} evt
    */
-  window.variables.timeinSelect.addEventListener('change', function (evt) {
-    window.variables.timeoutSelect.value = evt.target.value;
+  timeinSelect.addEventListener('change', function (evt) {
+    timeoutSelect.value = evt.target.value;
   });
 
   /**
    * Функция - обработчик событий на поле выезда
    * @param {Event} evt
    */
-  window.variables.timeoutSelect.addEventListener('change', function (evt) {
-    window.variables.timeinSelect.value = evt.target.value;
+  timeoutSelect.addEventListener('change', function (evt) {
+    timeinSelect.value = evt.target.value;
   });
 
+  /**
+   * Функция валидации формы по количеству комнат соответственно количеству гостей
+   */
   var validateGuestAndRoom = function () {
-    var rooms = window.variables.RoomToGuest['ROOM_' + window.variables.roomSelect.value];
+    var rooms = RoomToGuest['ROOM_' + roomSelect.value];
     var isMatch = false;
-    for (i = 0; i < rooms.length; i++) {
-      if (rooms[i] === window.variables.guestSelect.value) {
+    for (var i = 0; i < rooms.length; i++) {
+      if (rooms[i] === guestSelect.value) {
         isMatch = true;
         break;
       }
     }
     if (isMatch) {
-      window.variables.roomSelect.setCustomValidity('');
+      roomSelect.setCustomValidity('');
     } else {
-      window.variables. roomSelect.setCustomValidity('Количество гостей больше возможного');
+      roomSelect.setCustomValidity('Количество гостей больше возможного');
     }
   };
+  /**
+   * Функция показа сообщения при удачной отправке формы
+   */
   var onFormSave = function () {
     window.popup.showSuccessMessage();
   };
+  /**
+   * Функция отправки данных формы
+   * @param{object} evt
+   */
   var onSubmitClick = function (evt) {
     validateGuestAndRoom();
     evt.preventDefault();
     var formData = new FormData(evt.currentTarget);
-    window.backend.save(formData, onFormSave, window.popup.showSubmitError);
+    window.backend.save(formData, onFormSave, window.popup.showErrorMessage);
     if (onFormSave) {
-      window.map.deactivePage();
+      window.map.deactivatePage();
     }
   };
-  window.variables.formAdress.addEventListener('submit', onSubmitClick);
+  formAddress.addEventListener('submit', onSubmitClick);
 
   window.form = {
-    activeForm: activeForm
+    activateForm: activateForm,
+    deactivateForm: deactivateForm
   };
 })();

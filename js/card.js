@@ -1,54 +1,25 @@
 // card.js
 'use strict';
 (function () {
-  /**
-   * Функция coздания объявления
-   * @param {number} k - число
-   * @return {object} advertObject - объект с данными объявления
-   */
-  var createAdvert = function (k) {
-    var x = window.variables.getRandomIntegerFromInterval(0, window.variables.MAP_WIDTH);
-    var y = window.variables.getRandomIntegerFromInterval(0, window.variables.MAP_HEIGTH);
-    var advertObject = {
-      author: {
-        avatar: 'img/avatars/user0' + (k + 1) + '.png'
-      },
-      offer: {
-        title: window.util.getRandomElementFromArray(window.variables.TITLES),
-        address: x + ', ' + y,
-        price: window.util.getRandomIntegerFromInterval(window.variables.PRICE_MIN, window.variables.PRICE_MAX),
-        type: window.util.getRandomElementFromArray(window.variables.TYPES),
-        rooms: window.util.getRandomFromInterval(window.variables.ROOMS_MIN, window.variables.ROOMS_MAX),
-        guests: window.util.getRandomFromInterval(window.variables.GUESTS_MIN, window.variables.GUESTS_MAX),
-        checkin: window.util.getRandomElementFromArray(window.variables.CHECKIN_TIME),
-        checkout: window.util.getRandomElementFromArray(window.variables.CHECKOUT_TIME),
-        features: window.util.getRandomSubarray(window.variables.FEATURES),
-        description: '',
-        photos: window.util.shuffleArray(window.variables.PHOTOS)
-      },
-      location: {
-        x: x,
-        y: y
-      }
-    };
-    return advertObject;
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+  var card = document.querySelector('.map__card.popup');
+  var mapListCardElement = document.querySelector('.map');
+  var filtersContainer = document.querySelector('.map__filters-container');
+  var template = document.querySelector('#card').content.querySelector('.map__card');
+  var HousingType = {
+    BUNGALO: 'Бунгало',
+    PALACE: 'Дворец',
+    FLAT: 'Квартира',
+    HOUSE: 'Дом',
   };
-
-  /**
-   * Функция создания массива из объектов объявлений
-   */
-  var adverts = [];
-  for (var i = 0; i < window.util.COUNT; i++) {
-    var advert = createAdvert(i);
-    adverts.push(advert);
-  }
   /**
    * Функция cоздания объявления
    * @param {object} advertOffer - данные о будущем объявлении
    * @return {object} advertTemplate - клонированные данные объявления
    */
   var renderAdvert = function (advertOffer) {
-    var advertTemplate = window.variables.template.cloneNode(true);
+    var advertTemplate = template.cloneNode(true);
     if (advertOffer.offer.title) {
       advertTemplate.querySelector('.popup__title').textContent = advertOffer.offer.title;
     } else {
@@ -107,7 +78,7 @@
     }
     advertTemplate.classList.remove('.popup__avatar');
     advertTemplate.querySelector('.popup__avatar').src = advertOffer.author.avatar;
-    advertTemplate.querySelector('.popup__type').textContent = window.variables.PlaceType[advertOffer.offer.type.toUpperCase()];
+    advertTemplate.querySelector('.popup__type').textContent = HousingType[advertOffer.offer.type.toUpperCase()];
     advertTemplate.querySelector('.popup__close').addEventListener('click', closeCard);
     advertTemplate.querySelector('.popup__close').addEventListener('keydown', onPopupEnterPressClose);
 
@@ -115,26 +86,29 @@
   };
 
   var closeCardOnEscPress = function (evt) {
-    if (evt.keyCode === window.variables.ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEYCODE) {
       closeCard();
     }
   };
   var onPopupEnterPressClose = function (evt) {
-    if (evt.keyCode === window.variables.ENTER_KEYCODE) {
+    if (evt.keyCode === ENTER_KEYCODE) {
       closeCard();
     }
   };
   var closeCard = function () {
-    if (window.variables.card) {
-      window.variables.card.remove();
+    if (card) {
+      card.remove();
     }
     document.removeEventListener('keydown', closeCardOnEscPress);
   };
+  /**
+   * Функция определения координаты адресса пина
+   * @param {object} advertOffer - объект объявления
+   */
   var showCardOnMap = function (advertOffer) {
     closeCard();
-    window.map.clearAdd();
     var cardAdd = renderAdvert(advertOffer);
-    window.variables.mapListCardElement.insertBefore(cardAdd, window.variables.filtersContainer);
+    mapListCardElement.insertBefore(cardAdd, filtersContainer);
     document.addEventListener('keydown', closeCardOnEscPress);
   };
   window.card = {
