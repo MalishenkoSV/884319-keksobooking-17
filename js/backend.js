@@ -3,7 +3,7 @@
 (function () {
   var URL_GET = 'https://js.dump.academy/keksobooking/data';
   var URL_POST = 'https://js.dump.academy/keksobooking';
-  var TIMEOUT_LOAD = 1000;
+  var TIMEOUT_LOAD = 10000;
   var STATUS_LOAD = 200;
   var setupXhr = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
