@@ -108,7 +108,6 @@
     getRandomSubarray: getRandomSubarray,
     runOnEsc: runOnEsc,
     runOnEnter: runOnEnter,
-    mixArray: mixArray,
     debounce: debounce
   };
 })();

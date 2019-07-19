@@ -6,6 +6,7 @@
   var MAP_HEIGTH_MAX = 750;
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
+  var pins = map.querySelectorAll('.map__pin--all');
   // var avatarChooser = window.form.formAdress.querySelector('#avatar');
   // var photoChooser = window.form.formAdress.querySelector('#images');
   // var avatarPreview = window.form.formAdress.querySelector('.notice__preview').querySelector('img');
@@ -22,7 +23,6 @@
   /**
    *  Деактивация страницы
    */
-  var pins = [];
   var deactivatePage = function () {
     setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
     window.variables.formAdress.reset();
@@ -34,9 +34,8 @@
     pins.forEach(function (pin) {
       pin.remove();
     });
-    mainPin.addEventListener('mouseup', activatePage);
   };
-  window.variables.resetForm.addEventListener('keydown', deactivatePage);
+  window.variables.resetForm.addEventListener('click', deactivatePage);
 
   /**
    *  Деактивация страницы
@@ -46,11 +45,9 @@
     adverts = data;
   };
   var updateMap = function () {
-    // Закрывает открытый элемeнт 'Карточка объявления'
     if (window.map.card) {
       window.map.card.close();
     }
-    // Удаляет существующие элементы 'Метка объявления'
     pins.forEach(function (pin) {
       pin.remove();
     });
@@ -74,7 +71,6 @@
     window.form.activateForm();
     // Разрешает мультизагрузку файлов
     // photoChooser.multiple = 'multiple';
-    mainPin.removeEventListener('mouseup', activatePage);
   };
   window.map = {
     activatePage: activatePage,

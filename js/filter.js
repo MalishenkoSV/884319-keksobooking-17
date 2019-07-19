@@ -8,7 +8,6 @@
     MIDDLE_START: 10000,
     MIDDLE_FINAL: 50000
   };
-  var filteredAds = [];
   /**
    * filterByType - Фильтрует объявления ads по типу жилья.
      *
@@ -91,32 +90,38 @@
   });
 
   /**
+   *  Формирует массив из выбранных характеристик объявления
+   */
+  var checkedFeatures = filtersContainer.querySelectorAll('.map__filter-set input[name="features"]:checked');
+
+  /**
    * filterAds - Возвращает отфильтрованный массив объявлений.
    *
    * @param  {Arr} ads Массив объявлений до фильтрации.
    * @return {Arr}     Отфильтрованный массив объявлений.
    */
-  var filterAds = function () {
-
+  var filterAds = function (ads) {
+    var upgradeAds = ads.slice();
     // Формирует массив из фильтров, которые были применены (фильтр был применен,
     // если его значение отличается от значения 'any')
     var appliedFilters = Array.from(filters).filter(function (filter) {
       return filter.value !== 'any';
     });
-
-    // Формирует массив из выбранных характеристик объявления
-    var checkedFeatures = Array.from(filtersContainer.querySelectorAll('.map__filter-set input[name="features"]:checked'));
-
-    // Фильтрует объявления по каждому примененному фильтру
+    /**
+     * Фильтрует объявления по каждому примененному фильтру
+     */
     appliedFilters.forEach(function (filter) {
-      filteredAds = filterNameToFilter[filter.name](filteredAds, filter.value);
+      upgradeAds = filterNameToFilter[filter.name](upgradeAds, filter.value);
     });
 
-    // Фильтрует объявления по каждой выбранной характеристике
+    /**
+     * Фильтрует объявления по каждой выбранной характеристике
+     */
     checkedFeatures.forEach(function (feature) {
-      filteredAds = filterByFeatures(filteredAds, feature.value);
+      upgradeAds = filterByFeatures(upgradeAds, feature.value);
     });
-    return filteredAds;
+
+    return upgradeAds;
   };
   window.filter = {
     filterAds: filterAds

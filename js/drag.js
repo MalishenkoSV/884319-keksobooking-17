@@ -7,7 +7,7 @@
    * @param {object} mousedownEvt - начальные координаты
    */
   window.variables.mainPin.addEventListener('mousedown', function (mousedownEvt) {
-    mousedownEvt.preventDefault();
+    window.map.activatePage();
     var pinStatusCoords = {
       x: window.variables.MAP_WIDTH / 2 - window.variables.MAIN_PIN_WIDTH / 2,
       y: window.variables.MAP_HEIGTH / 2 - window.variables.MAIN_PIN_HEIGHT
@@ -22,6 +22,7 @@
      * @param {object}  mouseMoveEvt нажатие
      */
     var onMouseMove = function (mouseMoveEvt) {
+      mouseMoveEvt.preventDefault();
 
       var shift = {
         x: startCoords.x - mouseMoveEvt.clientX,
@@ -39,9 +40,9 @@
       };
 
       /**
-     * Определение ограничений пина и координаты пина
-     * @param {object}  mouseMoveEvt нажатие
-     */
+       * Определение ограничений пина и координаты пина
+       * @param {object}  mouseMoveEvt нажатие
+       */
       if (pinCoords.x >= window.variables.Border.LEFT && pinCoords.x <= window.variables.Border.RIGHT) {
         window.variables.mainPin.style.left = pinCoords.x + 'px';
         pinStatusCoords.x = pinCoords.x + window.variables.MAIN_PIN_WIDTH / 2;
@@ -55,14 +56,13 @@
       /**
        * Функция поднятия руки с мышки и прекращение движения
        * определение координат пина и удаление обработчиков
-       * добавление обработчиков
+       * добавление обработчиковll
        */
     var onMouseUp = function () {
       window.map.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-    window.map.activatePage();
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
