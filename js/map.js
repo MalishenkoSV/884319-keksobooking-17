@@ -5,7 +5,6 @@
   var MAP_HEIGTH = 630;
   var MAP_HEIGTH_MAX = 750;
   var map = document.querySelector('.map');
-  var mainPin = map.querySelector('.map__pin--main');
   var pins = map.querySelectorAll('.map__pin--all');
   // var avatarChooser = window.form.formAdress.querySelector('#avatar');
   // var photoChooser = window.form.formAdress.querySelector('#images');
@@ -40,33 +39,46 @@
   /**
    *  Деактивация страницы
    */
-  var adverts = [];
+  var ads = [];
   var onLoad = function (data) {
-    adverts = data;
+    ads = data;
   };
-  var updateMap = function () {
+  window.backend.load(onLoad, window.popup.showErrorMessage);
+
+  /**
+   *  Фильтрует объявления и создает массив отфильтрованных объявлений
+   */
+  var filtersContainer = document.querySelector('.map__filters-container');
+  var filters = filtersContainer.querySelectorAll('.map__filter');
+  var DEBOUNCE_INTERVAL = 500;
+  var getFilteredData = function (data, dataParam, value) {
+    if (value !== 'any') {
+      return (data.filter(function (it) {
+        return it.offer[dataParam] === value;
+      }));
+    } else {
+      return data.slice(0, 5);
+    }
+  };
+  var updateAds = function () {
+    var filterType = filters.value;
+    var adsForShow = getFilteredData(ads, 'type', filterType);
+    window.pin.showPinOnMap(adsForShow);
     if (window.map.card) {
-      window.map.card.close();
+      window.map.card.onClickCloseBtn();
     }
     pins.forEach(function (pin) {
       pin.remove();
     });
-
-    // 'Перемешивает' массив объявлений случайным обазом, чтобы при выборе опции 'любой'
-    // отображались случайные элементы
-    window.backend.load(onLoad, window.popup.showErrorMessage);
-
-    // Фильтрует объявления и создает массив отфильтрованных объявлений
-    var filteredAds = window.filter.filterAds(adverts);
-
-    // Добавляет DOM-элементы 'Метка объявления' на страницу
-    window.pin.showPinOnMap(filteredAds);
   };
+  filters.addEventListener('change', function () {
+    window.util.debounce(updateAds, DEBOUNCE_INTERVAL);
+  });
   /**
-   * Функция активации страницы при клике на главную метку
+   * Функция активации страницы
    */
   var activatePage = function () {
-    updateMap();
+    updateAds();
     setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH / 2);
     window.form.activateForm();
     // Разрешает мультизагрузку файлов
@@ -75,7 +87,6 @@
   window.map = {
     activatePage: activatePage,
     deactivatePage: deactivatePage,
-    setAddressCoords: setAddressCoords,
-    updateMap: updateMap
+    setAddressCoords: setAddressCoords
   };
 })();

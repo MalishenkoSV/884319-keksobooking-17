@@ -66,24 +66,7 @@
       action();
     }
   };
-  // /**
-  //  * mixArray - создает массив на основе переданного со случайно расположенными
-  //  * элементами.
-  //  *
-  //  * @param  {Array}  array  Массив, на основе которого формируется новый массив.
-  //  * @return {Array}         Сформированный массив.
-  //  */
-  // var mixArray = function (array) {
-  //   var result = [];
-  //   var clone = array.slice();
 
-  //   array.forEach(function (element) {
-  //     element = getRandomElementFromArray(clone, true);
-  //     result.push(element);
-  //   });
-
-  //   return result;
-  // };
   /**
    * debounce - Откладывает выполнение функции callback на время interval
    * и предотвращает 'дребезг' при повтороном обращении к фукнции callback раньше,
