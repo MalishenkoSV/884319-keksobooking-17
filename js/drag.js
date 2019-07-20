@@ -7,7 +7,7 @@
    * @param {object} mousedownEvt - начальные координаты
    */
   window.variables.mainPin.addEventListener('mousedown', function (mousedownEvt) {
-    if () {
+    if (!window.map.isActive) {
       window.map.activatePage();
     }
     var pinStatusCoords = {
