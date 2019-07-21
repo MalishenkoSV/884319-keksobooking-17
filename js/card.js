@@ -2,11 +2,9 @@
 'use strict';
 (function () {
   var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
-  var card = document.querySelector('.map__card.popup');
   var mapListCardElement = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
-  var template = document.querySelector('#card').content.querySelector('.map__card');
+  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var HousingType = {
     BUNGALO: 'Бунгало',
     PALACE: 'Дворец',
@@ -19,7 +17,17 @@
    * @return {object} advertTemplate - клонированные данные объявления
    */
   var renderAdvert = function (advertOffer) {
-    var advertTemplate = template.cloneNode(true);
+    var advertTemplate = cardTemplate.cloneNode(true);
+    // var updateOffer = function (value, selector) {
+    //   if (value) {
+    //     advertTemplate.querySelector(selector).textContent = value;
+    //   } else {
+    //     advertTemplate.querySelector(selector).remove();
+    //   }
+    // };
+    // Object.keys(advertOffer.offer).forEach(function (key) {
+    //   updateOffer(advertOffer[key]);
+    // });
     if (advertOffer.offer.title) {
       advertTemplate.querySelector('.popup__title').textContent = advertOffer.offer.title;
     } else {
@@ -63,7 +71,7 @@
     if (advertOffer.offer.photos) {
       advertTemplate.querySelector('.popup__photos').innerHTML = '';
       var fragmentForPhotos = document.createDocumentFragment();
-      advertOffer.offer.photos.forEach(function (j) {
+      for (var j = 0; j < advertOffer.offer.photos.length; j++) {
         var photo = document.createElement('img');
         photo.classList.add('popup__photo');
         photo.src = advertOffer.offer.photos[j];
@@ -71,8 +79,8 @@
         photo.height = 40;
         photo.alt = 'Фотография жилья';
         fragmentForPhotos.appendChild(photo);
-      });
-      advertTemplate.querySelector('.popup__photos').appendChild(fragmentForPhotos);
+        advertTemplate.querySelector('.popup__photos').appendChild(fragmentForPhotos);
+      }
     } else {
       advertTemplate.querySelector('.popup__photos').remove();
     }
@@ -80,27 +88,9 @@
     advertTemplate.querySelector('.popup__avatar').src = advertOffer.author.avatar;
     advertTemplate.querySelector('.popup__type').textContent = HousingType[advertOffer.offer.type.toUpperCase()];
     advertTemplate.querySelector('.popup__close').addEventListener('click', closeCard);
-    advertTemplate.querySelector('.popup__close').addEventListener('keydown', onPopupEnterPressClose);
-
     return advertTemplate;
   };
 
-  var closeCardOnEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closeCard();
-    }
-  };
-  var onPopupEnterPressClose = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closeCard();
-    }
-  };
-  var closeCard = function () {
-    if (card) {
-      card.remove();
-    }
-    document.removeEventListener('keydown', closeCardOnEscPress);
-  };
   /**
    * Функция определения координаты адресса пина
    * @param {object} advertOffer - объект объявления
@@ -109,9 +99,21 @@
     closeCard();
     var cardAdd = renderAdvert(advertOffer);
     mapListCardElement.insertBefore(cardAdd, filtersContainer);
-    document.addEventListener('keydown', closeCardOnEscPress);
+  };
+  var closeCard = function () {
+    var card = document.querySelector('.map__card.popup');
+    if (card) {
+
+      card.remove();
+    }
+  };
+
+  var onClickCloseBtn = function () {
+    closeCard();
+    document.removeEventListener('click', closeCard);
   };
   window.card = {
-    showCardOnMap: showCardOnMap
+    showCardOnMap: showCardOnMap,
+    onClickCloseBtn: onClickCloseBtn
   };
 })();

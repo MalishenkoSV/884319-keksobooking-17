@@ -30,25 +30,24 @@
    * удаления класса деактивации полей формы
    */
 
-  var disableForm = function () {
-    fieldsetsList.forEach(function (fieldset) {
-      fieldset.disabled = true;
-    });
-    selectsList.forEach(function (select) {
-      select.disabled = true;
+  var disableForm = function (list, newStatus) {
+    Array.from(list).forEach(function (listElement) {
+      listElement.disabled = newStatus;
     });
   };
   var activateForm = function () {
     map.classList.remove('map--faded');
     formAddress.classList.remove('ad-form--disabled');
     mapFiltersList.classList.remove('ad-form--disabled');
-    disableForm(false);
+    disableForm(fieldsetsList, false);
+    disableForm(selectsList, false);
   };
   var deactivateForm = function () {
     map.classList.add('map--faded');
     formAddress.classList.add('ad-form--disabled');
     mapFiltersList.classList.add('ad-form--disabled');
-    disableForm();
+    disableForm(fieldsetsList, true);
+    disableForm(selectsList, true);
   };
   /**
    * Функция определения координат адресса метки
