@@ -1,7 +1,6 @@
 // card.js
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
   var mapListCardElement = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');

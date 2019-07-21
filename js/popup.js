@@ -6,17 +6,9 @@
   var cloneSuccess = templateSuccess.cloneNode(true);
   var templateError = document.querySelector('#error').content.querySelector('.error');
   var cloneError = templateError.cloneNode(true);
-  // var errorMessage = templateError.querySelector('.error__message');
+  var errorMessage = templateError.querySelector('.error__message');
   var button = cloneError.querySelector('.error__button');
-  // errorMessage.textContent = 'Ошибка заполнения. Пожалуйста, исправьте форму и попробуйте еще раз.';
-  /**
-   *  Попап успешной отправки формы
-   */
-  var showSuccessMessage = function () {
-    main.appendChild(cloneSuccess);
-    cloneSuccess.addEventListener('keydown', onEnterCloseSuccess);
-    document.addEventListener('click', closeSuccessMessage);
-  };
+  errorMessage.textContent = 'Ошибка заполнения. Пожалуйста, исправьте форму и попробуйте еще раз.';
   /**
    *  Функция закрытия попапа успешной отправки формы
    */
@@ -32,6 +24,15 @@
       closeSuccessMessage();
     }
   };
+  /**
+   *  Попап успешной отправки формы
+   */
+  var showSuccessMessage = function () {
+    main.appendChild(cloneSuccess);
+    cloneSuccess.addEventListener('keydown', onEnterCloseSuccess);
+    document.addEventListener('click', closeSuccessMessage);
+  };
+
   /**
    *  Функция закрытия окна ошибки
    */
