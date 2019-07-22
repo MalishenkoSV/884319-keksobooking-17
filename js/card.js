@@ -96,14 +96,13 @@
    */
   var showCardOnMap = function (advertOffer) {
     closeCard();
-    var cardAdd = renderAdvert(advertOffer);
-    mapListCardElement.insertBefore(cardAdd, filtersContainer);
+    var cardElement = renderAdvert(advertOffer);
+    mapListCardElement.insertBefore(cardElement, filtersContainer);
   };
   var closeCard = function () {
-    var card = document.querySelector('.map__card.popup');
-    if (card) {
-
-      card.remove();
+    var cardAd = document.querySelector('.map__card.popup');
+    if (cardAd) {
+      cardAd.remove();
     }
   };
 
@@ -112,6 +111,7 @@
     document.removeEventListener('click', closeCard);
   };
   window.card = {
+    closeCard: closeCard,
     showCardOnMap: showCardOnMap,
     onClickCloseBtn: onClickCloseBtn
   };

@@ -19,24 +19,26 @@
   var setAddressCoords = function (x, y) {
     window.variables.formAdress.querySelector('#address').value = x + ', ' + y;
   };
-  var mapActive = false;
-  /**
-   *  Деактивация страницы
-   */
-  var deactivatePage = function () {
-    mapActive = false;
-    setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
-    window.variables.formAdress.reset();
-    window.pin.resetActivePin();
-    if (window.map.card) {
-      window.map.card.remove();
-    }
-    window.form.deactivateForm();
+  var removePins = function () {
     pins.forEach(function (pin) {
       pin.remove();
     });
   };
-  window.variables.resetForm.addEventListener('click', deactivatePage);
+  var mapActive = false;
+  /**
+   *  Деактивация страницы
+   */
+  var onPageDeactivate = function () {
+    mapActive = false;
+    setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
+    window.variables.formAdress.reset();
+    window.pin.resetActivePin();
+    window.card.closeCard();
+    window.form.deactivateForm();
+    removePins();
+  };
+  window.variables.resetForm.addEventListener('click', onPageDeactivate);
+  onPageDeactivate();
 
   /**
    *  Деактивация страницы
@@ -45,7 +47,7 @@
   var onLoad = function (data) {
     ads = data;
   };
-  window.backend.load(onLoad, window.popup.showErrorMessage);
+  window.backend.load(onLoad, window.popup.onErrorShowMessage);
 
   /**
    *  Фильтрует объявления и создает массив отфильтрованных объявлений
@@ -64,16 +66,11 @@
   var updateAds = function () {
     var filterType = filters.value;
     var adsForShow = getFilteredData(ads, 'type', filterType);
-    pins.forEach(function (pin) {
-      pin.remove();
-    });
+    removePins();
     window.pin.showPinOnMap(adsForShow);
-    if (window.map.card) {
-      window.map.card.close();
-    }
-
+    window.card.closeCard();
   };
-  filters.addEventListener('change', function (evt) {
+  filters.addEventListener('change', function () {
     window.util.debounce(updateAds, DEBOUNCE_INTERVAL);
   });
 
@@ -92,7 +89,7 @@
   window.map = {
     isActive: mapActive,
     activatePage: activatePage,
-    deactivatePage: deactivatePage,
+    onPageDeactivate: onPageDeactivate,
     setAddressCoords: setAddressCoords
   };
 })();
