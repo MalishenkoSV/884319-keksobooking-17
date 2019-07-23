@@ -4,8 +4,10 @@
   var MAP_WIDTH = 1200;
   var MAP_HEIGTH = 630;
   var MAP_HEIGTH_MAX = 750;
+  var DEBOUNCE_INTERVAL = 500;
   var map = document.querySelector('.map');
   var pins = map.querySelectorAll('.map__pin--all');
+  var filters = document.querySelector('.map__filters');
   // var avatarChooser = window.form.formAdress.querySelector('#avatar');
   // var photoChooser = window.form.formAdress.querySelector('#images');
   // var avatarPreview = window.form.formAdress.querySelector('.notice__preview').querySelector('img');
@@ -37,8 +39,8 @@
     window.form.deactivateForm();
     removePins();
   };
-  window.variables.resetForm.addEventListener('click', onPageDeactivate);
   onPageDeactivate();
+  window.variables.resetForm.addEventListener('click', onPageDeactivate);
 
   /**
    *  Деактивация страницы
@@ -49,24 +51,12 @@
   };
   window.backend.load(onLoad, window.popup.onErrorShowMessage);
 
-  /**
-   *  Фильтрует объявления и создает массив отфильтрованных объявлений
-   */
-  var filters = document.querySelector('.map__filters');
-  var DEBOUNCE_INTERVAL = 500;
-  var getFilteredData = function (data, dataParam, value) {
-    if (value !== undefined) {
-      return (data.filter(function (it) {
-        return it.offer[dataParam] === value;
-      }));
-    } else {
-      return data.slice(0, 5);
-    }
-  };
+
   var updateAds = function () {
     var filterType = filters.value;
-    var adsForShow = getFilteredData(ads, 'type', filterType);
-    removePins();
+    var adsForShow = window.filter.getFilteredData(ads, 'type', filterType);
+    // removePins();
+    removePins('.map__pin--all');
     window.pin.showPinOnMap(adsForShow);
     window.card.closeCard();
   };
