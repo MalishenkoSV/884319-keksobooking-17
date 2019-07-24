@@ -2,18 +2,22 @@
 // oшибки
 (function () {
   var main = document.querySelector('main');
-  var templateSuccess = document.querySelector('#success');
+  var templateSuccess = document.querySelector('#success').content.querySelector('.success');
   var cloneSuccess = templateSuccess.cloneNode(true);
-  var templateError = document.querySelector('#error').content.querySelector('.error');
-  var cloneError = templateError.cloneNode(true);
-  // var errorMessage = templateError.querySelector('.error__message');
-  var button = cloneError.querySelector('.error__button');
-  // errorMessage.textContent = 'Ошибка заполнения. Пожалуйста, исправьте форму и попробуйте еще раз.';
+
+  /**
+   *  Попап успешной отправки формы
+   */
+  var onSuccessShowMessage = function () {
+    main.appendChild(cloneSuccess);
+    document.addEventListener('keydown', onSuccessMassageESCClose);
+    document.addEventListener('click', onSuccessMassageClose);
+  };
   /**
    *  Функция закрытия попапа успешной отправки формы
    */
   var onSuccessMassageClose = function () {
-    main.removeChild(cloneSuccess);
+    cloneSuccess.remove();
   };
   /**
    *  Функция закрытия попапа успешной отправки формы  при нажатии на ESC
@@ -25,22 +29,22 @@
     }
   };
   /**
-   *  Попап успешной отправки формы
+   *  Попап ошибки при отправке формы
    */
-  var onSuccessShowMessage = function () {
-    main.appendChild(cloneSuccess);
-    cloneSuccess.addEventListener('keydown', onSuccessMassageESCClose);
-    document.addEventListener('click', onSuccessMassageClose);
+  var templateError = document.querySelector('#error').content.querySelector('.error');
+  var cloneError = templateError.cloneNode(true);
+  var button = cloneError.querySelector('.error__button');
+
+  var onErrorShowMessage = function () {
+    main.appendChild(cloneError);
+    window.map.onPageDeactivate();
+    document.addEventListener('keydown', onKeyPressOnError);
+    document.addEventListener('click', closeErrorMessage);
+    button.addEventListener('keydown', closeErrorMessage);
   };
 
-  /**
-   *  Функция закрытия окна ошибки
-   */
   var closeErrorMessage = function () {
-    document.addEventListener('click', function () {
-      main.removeChild(cloneError);
-    });
-    window.map.onPageDeactivate();
+    cloneError.remove();
   };
   /**
    *  Функция закрытия окна ошибки при нажатии на ESC
@@ -51,16 +55,10 @@
       closeErrorMessage();
     }
   };
-  /**
-   *  Попап ошибки при отправке формы
-   */
-  var onErrorShowMessage = function () {
-    main.appendChild(cloneError);
-    cloneError.addEventListener('keydown', onKeyPressOnError);
-    document.addEventListener('click', closeErrorMessage);
-    button.addEventListener('keydown', closeErrorMessage);
-  };
 
+  document.addEventListener('click', function () {
+    closeErrorMessage();
+  });
   window.popup = {
     onErrorShowMessage: onErrorShowMessage,
     onSuccessShowMessage: onSuccessShowMessage

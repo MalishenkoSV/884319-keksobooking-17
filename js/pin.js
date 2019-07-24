@@ -25,10 +25,10 @@
    */
   var showPinOnMap = function (offers) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < MAX_NUM_PINS; i++) {
-      var pin = createMapPin(offers[i]);
+    offers.forEach(function (offer) {
+      var pin = createMapPin(offer);
       fragment.appendChild(pin);
-    }
+    });
     window.variables.mapListPinElement.appendChild(fragment);
   };
   /**

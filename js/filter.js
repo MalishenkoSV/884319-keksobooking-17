@@ -3,19 +3,15 @@
 (function () {
   /**
    *  Фильтрует объявления и создает массив отфильтрованных объявлений
-   * @param {object} data - объект
-   * @param {object} dataParam
-   * @param {object} value
-   * @return{} копию объекта
+   * @param {Array} data - объект
+   * @param {object} dataParam -type of filter
+   * @param {string} value - value of currentFiler
+   * @return{Array} data - отфильтрованый массив
   //  */
   var getFilteredData = function (data, dataParam, value) {
-    if (value !== undefined) {
-      return (data.filter(function (it) {
-        return it.offer[dataParam] === value;
-      }));
-    } else {
-      return data.slice(0, 5);
-    }
+    return (data.filter(function (it) {
+      return it.offer[dataParam] === value;
+    }));
   };
   window.filter = {
     getFilteredData: getFilteredData

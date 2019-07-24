@@ -43,54 +43,9 @@
     return shuffledArray.slice(0, randomEndIndex);
   };
 
-  /**
-   * runOnEnter - Если нажатая клавиша - Esc, то вызывает переданную функцию action.
-   *
-   * @param  {Event}    evt    Событие Event.
-   * @param  {function} action Выполняемая функция.
-   */
-  var runOnEsc = function (evt, action) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      action();
-    }
-  };
-
-  /**
-   * runOnEnter - Если нажатая клавиша - Enter, то вызывает переданную функцию action.
-   *
-   * @param  {Event}    evt    Событие Event.
-   * @param  {function} action Выполняемая функция.
-   */
-  var runOnEnter = function (evt, action) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      action();
-    }
-  };
-
-  /**
-   * debounce - Откладывает выполнение функции callback на время interval
-   * и предотвращает 'дребезг' при повтороном обращении к фукнции callback раньше,
-   * чем через время interval.
-   *
-   * @param  {function} callback   Выполняемая функция.
-   * @param  {number}   interval Время в мс.
-   */
-  var debounce = function (callback, interval) {
-    var lastTimeout;
-
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-
-    lastTimeout = window.setTimeout(callback, interval);
-  };
-
   window.util = {
     getRandomFromInterval: getRandomFromInterval,
     getRandomElementFromArray: getRandomElementFromArray,
-    getRandomSubarray: getRandomSubarray,
-    runOnEsc: runOnEsc,
-    runOnEnter: runOnEnter,
-    debounce: debounce
+    getRandomSubarray: getRandomSubarray
   };
 })();

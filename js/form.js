@@ -97,6 +97,9 @@
       roomSelect.setCustomValidity('Количество гостей больше возможного');
     }
   };
+  guestSelect.addEventListener('change', function () {
+    validateGuestAndRoom();
+  });
   /**
    * Функция показа сообщения при удачной отправке формы
    */
@@ -108,7 +111,6 @@
    * @param{object} evt
    */
   var onSubmitClick = function (evt) {
-    validateGuestAndRoom();
     evt.preventDefault();
     var formData = new FormData(evt.currentTarget);
     window.backend.save(formData, onFormSave, window.popup.onErrorShowMessage);
