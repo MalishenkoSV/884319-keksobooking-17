@@ -1,8 +1,6 @@
 // util.js
 'use strict';
 (function () {
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
   /**
    * Создает рандомное число
    * @param {number} min — минимальное число
@@ -42,10 +40,28 @@
     var randomEndIndex = getRandomFromInterval(1, arr.length - 1);
     return shuffledArray.slice(0, randomEndIndex);
   };
+  /**
+   * mixArray - создает массив на основе переданного со случайно расположенными
+   * элементами.
+   *
+   * @param  {Array}  array  Массив, на основе которого формируется новый массив.
+   * @return {Array}         Сформированный массив.
+   */
+  var mixArray = function (array) {
+    var result = [];
+    var clone = array.slice();
 
+    array.forEach(function (element) {
+      element = getRandomElementFromArray(clone, true);
+      result.push(element);
+    });
+
+    return result;
+  };
   window.util = {
     getRandomFromInterval: getRandomFromInterval,
     getRandomElementFromArray: getRandomElementFromArray,
-    getRandomSubarray: getRandomSubarray
+    getRandomSubarray: getRandomSubarray,
+    mixArray: mixArray
   };
 })();

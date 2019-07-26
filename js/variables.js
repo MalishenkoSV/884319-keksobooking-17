@@ -31,14 +31,13 @@
     BOTTOM: MAP_HEIGTH_MAX - MAIN_PIN_HEIGHT
   };
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-  var formAdress = document.querySelector('.ad-form');
   var formAddress = document.querySelector('.ad-form');
   var map = document.querySelector('.map');
   var mapListPinElement = document.querySelector('.map__pins');
   var pin = mapListPinElement.querySelector('.map__pin');
   var mainPin = map.querySelector('.map__pin--main');
   var button = formAddress.querySelector('.ad-form__submit');
-  var resetForm = formAdress.querySelector('.ad-form__reset');
+  var resetForm = formAddress.querySelector('.ad-form__reset');
   var activePin = document.querySelector('.' + PIN_ACTIVE_CLASS);
   window.variables = {
     COUNT: COUNT,
@@ -63,9 +62,8 @@
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
     activePin: activePin,
-    formAdress: formAdress,
-    mainPin: mainPin,
     formAddress: formAddress,
+    mainPin: mainPin,
     map: map,
     pin: pin,
     Border: Border,
