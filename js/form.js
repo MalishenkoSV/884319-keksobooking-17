@@ -35,19 +35,20 @@
       listElement.disabled = newStatus;
     });
   };
-  var activateForm = function () {
-    map.classList.remove('map--faded');
-    formAddress.classList.remove('ad-form--disabled');
-    mapFiltersList.classList.remove('ad-form--disabled');
-    disableForm(fieldsetsList, false);
-    disableForm(selectsList, false);
-  };
+
   var deactivateForm = function () {
     map.classList.add('map--faded');
     formAddress.classList.add('ad-form--disabled');
     mapFiltersList.classList.add('ad-form--disabled');
     disableForm(fieldsetsList, true);
     disableForm(selectsList, true);
+  };
+  var activateForm = function () {
+    map.classList.remove('map--faded');
+    formAddress.classList.remove('ad-form--disabled');
+    mapFiltersList.classList.remove('ad-form--disabled');
+    disableForm(fieldsetsList, false);
+    disableForm(selectsList, false);
   };
   /**
    * Функция определения координат адресса метки
@@ -96,23 +97,25 @@
       roomSelect.setCustomValidity('Количество гостей больше возможного');
     }
   };
+  guestSelect.addEventListener('change', function () {
+    validateGuestAndRoom();
+  });
   /**
    * Функция показа сообщения при удачной отправке формы
    */
   var onFormSave = function () {
-    window.popup.showSuccessMessage();
+    window.popup.onSuccessShowMessage();
   };
   /**
    * Функция отправки данных формы
    * @param{object} evt
    */
   var onSubmitClick = function (evt) {
-    validateGuestAndRoom();
     evt.preventDefault();
     var formData = new FormData(evt.currentTarget);
-    window.backend.save(formData, onFormSave, window.popup.showErrorMessage);
+    window.backend.save(formData, onFormSave, window.popup.onErrorShowMessage);
     if (onFormSave) {
-      window.map.deactivatePage();
+      window.map.onPageDeactivate();
     }
   };
   formAddress.addEventListener('submit', onSubmitClick);
