@@ -17,16 +17,6 @@
    */
   var renderAdvert = function (advertOffer) {
     var advertTemplate = cardTemplate.cloneNode(true);
-    // var updateOffer = function (value, selector) {
-    //   if (value) {
-    //     advertTemplate.querySelector(selector).textContent = value;
-    //   } else {
-    //     advertTemplate.querySelector(selector).remove();
-    //   }
-    // };
-    // Object.keys(advertOffer.offer).forEach(function (key) {
-    //   updateOffer(advertOffer[key]);
-    // });
     if (advertOffer.offer.title) {
       advertTemplate.querySelector('.popup__title').textContent = advertOffer.offer.title;
     } else {

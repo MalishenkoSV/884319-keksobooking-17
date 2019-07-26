@@ -3,7 +3,7 @@
 (function () {
   var PRICE_LOW = 10000;
   var PRICE_HIGH = 50000;
-  var filtersContainer = document.querySelector('.map__filters-container');
+  var filtersContainer = document.querySelector('.map__filters');
   var filtersState = {};
   /**
    * filterByPrice - Фильтрует объявления ads по цене.
@@ -36,6 +36,10 @@
       return true;
     }
   };
+  /**
+   * Изменения на фильтре
+   * @param  {object} evt
+   */
   var onFiltersChange = function (evt) {
     var name = evt.target.name.replace('housing-', '');
     var value = evt.target.value;
@@ -58,11 +62,17 @@
     }
   };
   filtersContainer.addEventListener('change', onFiltersChange);
+
+  /**
+   * filterByPrice - Фильтрует объявления ads по цене.
+   * @param  {Array} ads массив объявлений
+   * @return {Array}  updatedAds Массив объявлений после фильтрации.
+   */
   var applyFilters = function (ads) {
-    var updatedList = ads.slice();
+    var updatedAds = ads.slice();
     var keysToCheck = Object.keys(filtersState);
 
-    updatedList = updatedList.filter(function (item) {
+    updatedAds = updatedAds.filter(function (item) {
       var isValid = true;
 
       for (var i = 0; i < keysToCheck.length; i++) {
@@ -82,11 +92,10 @@
           break;
         }
       }
-
       return isValid;
     });
 
-    return updatedList;
+    return updatedAds;
   };
 
 

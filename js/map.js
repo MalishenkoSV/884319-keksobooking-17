@@ -49,14 +49,14 @@
   window.backend.load(onLoad, window.popup.onErrorShowMessage);
 
   /**
-   *  Обновление загруженных данных и показ на карте
+   * Обновление загруженных данных и показ на карте
    * @param{array} ads обьявлений
    */
   var updateAds = function () {
     removePins();
     window.card.closeCard();
     window.pin.showPinOnMap(window.filter.applyFilters(ads).slice(0, MAX_ADS));
-    window.utilDebounce.debounce(window.filter.onFiltersChange());
+    // window.filter.onFiltersChange();
   };
 
 
@@ -70,8 +70,6 @@
     setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH / 2);
     window.form.activateForm();
     updateAds();
-    // Разрешает мультизагрузку файлов
-    // photoChooser.multiple = 'multiple';
   };
   window.map = {
     isActive: mapActive,
