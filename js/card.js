@@ -101,8 +101,8 @@
     document.removeEventListener('click', closeCard);
   };
   window.card = {
-    closeCard: closeCard,
-    showCardOnMap: showCardOnMap,
+    close: closeCard,
+    showOnMap: showCardOnMap,
     onClickCloseBtn: onClickCloseBtn
   };
 })();

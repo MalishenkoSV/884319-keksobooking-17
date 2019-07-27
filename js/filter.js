@@ -1,4 +1,4 @@
-// filter.js
+// // filter.js
 'use strict';
 (function () {
   var PRICE_LOW = 10000;
@@ -62,7 +62,6 @@
     }
   };
   filtersContainer.addEventListener('change', onFiltersChange);
-
   /**
    * filterByPrice - Фильтрует объявления ads по цене.
    * @param  {Array} ads массив объявлений
@@ -70,9 +69,10 @@
    */
   var applyFilters = function (ads) {
     var updatedAds = ads.slice();
+    var mixAds = window.util.mixArray(updatedAds);
     var keysToCheck = Object.keys(filtersState);
 
-    updatedAds = updatedAds.filter(function (item) {
+    updatedAds = mixAds.filter(function (item) {
       var isValid = true;
 
       for (var i = 0; i < keysToCheck.length; i++) {

@@ -6,6 +6,7 @@
   var MAP_HEIGTH_MAX = 750;
   var MAX_ADS = 5;
   var map = document.querySelector('.map');
+  var filtersContainer = document.querySelector('.map__filters');
 
   /**
    * Функция определения координаты адресса пина
@@ -31,8 +32,8 @@
     setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH_MAX / 2);
     window.variables.formAddress.reset();
     window.pin.resetActivePin();
-    window.card.closeCard();
-    window.form.deactivateForm();
+    window.card.close();
+    window.form.disable();
     removePins(pins);
   };
   onPageDeactivate();
@@ -52,11 +53,10 @@
    * Обновление загруженных данных и показ на карте
    * @param{array} ads обьявлений
    */
-  var updateAds = function () {
+  var onMapChangePins = function () {
     removePins();
-    window.card.closeCard();
+    window.card.close();
     window.pin.showPinOnMap(window.filter.applyFilters(ads).slice(0, MAX_ADS));
-    // window.filter.onFiltersChange();
   };
 
 
@@ -68,13 +68,15 @@
     mapActive = true;
     window.pin.showPinOnMap(window.filter.applyFilters(ads).slice(0, MAX_ADS));
     setAddressCoords(MAP_WIDTH / 2, MAP_HEIGTH / 2);
-    window.form.activateForm();
-    updateAds();
+    window.form.enable();
+    onMapChangePins();
   };
+  filtersContainer.addEventListener('change', onMapChangePins);
   window.map = {
     isActive: mapActive,
     activatePage: activatePage,
     onPageDeactivate: onPageDeactivate,
-    setAddressCoords: setAddressCoords
+    setAddressCoords: setAddressCoords,
+    onMapChangePins: onMapChangePins
   };
 })();

@@ -13,7 +13,7 @@
       mapPinTemplate.querySelector('img').src = advertData.author.avatar;
       mapPinTemplate.querySelector('img').alt = advertData.offer.title;
       mapPinTemplate.addEventListener('click', function () {
-        window.card.showCardOnMap(advertData);
+        window.card.showOnMap(advertData);
       });
     }
     return mapPinTemplate;
@@ -58,7 +58,7 @@
   };
   window.variables.pin.addEventListener('focus', window.card.setActivePin);
   window.pin = {
-    showPinOnMap: showPinOnMap,
+    showPinOnMap: window.util.debounce(showPinOnMap),
     setActivePin: setActivePin,
     resetActivePin: resetActivePin
   };

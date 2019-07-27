@@ -36,14 +36,14 @@
     });
   };
 
-  var deactivateForm = function () {
+  var disable = function () {
     map.classList.add('map--faded');
     formAddress.classList.add('ad-form--disabled');
     mapFiltersList.classList.add('ad-form--disabled');
     disableForm(fieldsetsList, true);
     disableForm(selectsList, true);
   };
-  var activateForm = function () {
+  var enable = function () {
     map.classList.remove('map--faded');
     formAddress.classList.remove('ad-form--disabled');
     mapFiltersList.classList.remove('ad-form--disabled');
@@ -121,7 +121,7 @@
   formAddress.addEventListener('submit', onSubmitClick);
 
   window.form = {
-    activateForm: activateForm,
-    deactivateForm: deactivateForm
+    disable: disable,
+    enable: enable
   };
 })();
