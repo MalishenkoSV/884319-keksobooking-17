@@ -28,7 +28,7 @@
       var pin = createMapPin(offers[i]);
       fragment.appendChild(pin);
     }
-    window.variables.mapListPinElement.appendChild(fragment);
+    window.variables.mapListPins.appendChild(fragment);
   };
   /**
    * Сброс активации пинов

@@ -68,11 +68,10 @@
    * @return {Array}  updatedAds Массив объявлений после фильтрации.
    */
   var applyFilters = function (ads) {
-    var updatedAds = ads.slice();
-    var mixAds = window.util.mixArray(updatedAds);
+    var mixAds = window.util.mixArray(ads);
     var keysToCheck = Object.keys(filtersState);
 
-    updatedAds = mixAds.filter(function (item) {
+    var updatedAds = mixAds.filter(function (item) {
       var isValid = true;
 
       for (var i = 0; i < keysToCheck.length; i++) {

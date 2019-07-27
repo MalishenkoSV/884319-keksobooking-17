@@ -26,8 +26,8 @@
   };
   /**
    * Функция активации карты
-   * удаление класса деактивации
-   * удаления класса деактивации полей формы
+   * @param{element} list
+   * @param{buleon} newStatus
    */
 
   var disableForm = function (list, newStatus) {
@@ -50,13 +50,9 @@
     disableForm(fieldsetsList, false);
     disableForm(selectsList, false);
   };
+
   /**
-   * Функция определения координат адресса метки
-   * @param {number} x -- координата по горизонтали
-   * @param {number} y -- координата по вертикали
-   */
-  /**
-   * Функция обработчик события изменений на поле цены
+   * Функция обработчик события изменений на поле цены при изменени типа жилья
    * значение мин цены берется из перечисления
    */
   typeSelect.addEventListener('change', function () {
@@ -97,6 +93,10 @@
       roomSelect.setCustomValidity('Количество гостей больше возможного');
     }
   };
+  /**
+   * Функция - обработчик событий на поле гостей
+   * @param {Event} evt
+   */
   guestSelect.addEventListener('change', function () {
     validateGuestAndRoom();
   });

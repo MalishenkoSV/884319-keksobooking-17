@@ -33,8 +33,8 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var formAddress = document.querySelector('.ad-form');
   var map = document.querySelector('.map');
-  var mapListPinElement = document.querySelector('.map__pins');
-  var pin = mapListPinElement.querySelector('.map__pin');
+  var mapListPins = document.querySelector('.map__pins');
+  var pin = mapListPins.querySelector('.map__pin');
   var mainPin = map.querySelector('.map__pin--main');
   var button = formAddress.querySelector('.ad-form__submit');
   var resetForm = formAddress.querySelector('.ad-form__reset');
@@ -68,7 +68,7 @@
     pin: pin,
     Border: Border,
     pinTemplate: pinTemplate,
-    mapListPinElement: mapListPinElement,
+    mapListPins: mapListPins,
     button: button,
     resetForm: resetForm
   };

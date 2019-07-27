@@ -81,7 +81,7 @@
   };
 
   /**
-   * Функция определения координаты адресса пина
+   * Функция показа  пинов  на карте
    * @param {object} advertOffer - объект объявления
    */
   var showCardOnMap = function (advertOffer) {
