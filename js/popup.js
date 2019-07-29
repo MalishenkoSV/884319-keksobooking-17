@@ -4,6 +4,9 @@
   var main = document.querySelector('main');
   var templateSuccess = document.querySelector('#success').content.querySelector('.success');
   var cloneSuccess = templateSuccess.cloneNode(true);
+  var templateError = document.querySelector('#error').content.querySelector('.error');
+  var cloneError = templateError.cloneNode(true);
+  var button = cloneError.querySelector('.error__button');
 
   /**
    *  Попап успешной отправки формы
@@ -31,10 +34,6 @@
   /**
    *  Попап ошибки при отправке формы
    */
-  var templateError = document.querySelector('#error').content.querySelector('.error');
-  var cloneError = templateError.cloneNode(true);
-  var button = cloneError.querySelector('.error__button');
-
   var onErrorShowMessage = function () {
     main.appendChild(cloneError);
     window.map.onPageDeactivate();
@@ -55,10 +54,6 @@
       closeErrorMessage();
     }
   };
-
-  document.addEventListener('click', function () {
-    closeErrorMessage();
-  });
   window.popup = {
     onErrorShowMessage: onErrorShowMessage,
     onSuccessShowMessage: onSuccessShowMessage
