@@ -1,11 +1,10 @@
 // form.js
 'use strict';
 (function () {
-  var mapFiltersList = document.querySelector('.map__filters');
-  var selectsList = mapFiltersList.querySelectorAll('select');
+  var mapFilters = document.querySelector('.map__filters');
+  var selects = mapFilters.querySelectorAll('select');
   var formAddress = document.querySelector('.ad-form');
-  var fieldsetsList = formAddress.querySelectorAll('fieldset');
-  var map = document.querySelector('.map');
+  var fieldsets = formAddress.querySelectorAll('fieldset');
   var typeSelect = formAddress.querySelector('#type');
   var priceSelect = formAddress.querySelector('#price');
   var timeinSelect = formAddress.querySelector('#timein');
@@ -37,18 +36,18 @@
   };
 
   var disable = function () {
-    map.classList.add('map--faded');
+    window.variables.map.classList.add('map--faded');
     formAddress.classList.add('ad-form--disabled');
-    mapFiltersList.classList.add('ad-form--disabled');
-    disableForm(fieldsetsList, true);
-    disableForm(selectsList, true);
+    mapFilters.classList.add('ad-form--disabled');
+    disableForm(fieldsets, true);
+    disableForm(selects, true);
   };
   var enable = function () {
-    map.classList.remove('map--faded');
+    window.variables.map.classList.remove('map--faded');
     formAddress.classList.remove('ad-form--disabled');
-    mapFiltersList.classList.remove('ad-form--disabled');
-    disableForm(fieldsetsList, false);
-    disableForm(selectsList, false);
+    mapFilters.classList.remove('ad-form--disabled');
+    disableForm(fieldsets, false);
+    disableForm(selects, false);
   };
 
   /**
@@ -115,7 +114,7 @@
     var formData = new FormData(evt.currentTarget);
     window.backend.save(formData, onFormSave, window.popup.onErrorShowMessage);
     if (onFormSave) {
-      window.map.onPageDeactivate();
+      window.variables.map.onPageDeactivate();
     }
   };
   formAddress.addEventListener('submit', onSubmitClick);

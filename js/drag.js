@@ -1,18 +1,31 @@
 //  drag.js
 'use strict';
 (function () {
+  var map = document.querySelector('.map');
+  var mainPin = map.querySelector('.map__pin--main');
+  var MAP_WIDTH = 1200;
+  var MAP_HEIGTH_MIN = 130;
+  var MAIN_PIN_WIDTH = 65;
+  var MAIN_PIN_HEIGHT = 81;
+  var MAP_HEIGTH_MAX = 750;
+  var Border = {
+    LEFT: 0,
+    RIGHT: MAP_WIDTH - MAIN_PIN_WIDTH,
+    TOP: MAP_HEIGTH_MIN,
+    BOTTOM: MAP_HEIGTH_MAX - MAIN_PIN_HEIGHT
+  };
   /**
    * Функция определения движения при нажатии мыши
    * @param {'mousedown'} нажатие
    * @param {object} mousedownEvt - начальные координаты
    */
-  window.variables.mainPin.addEventListener('mousedown', function (mousedownEvt) {
+  mainPin.addEventListener('mousedown', function (mousedownEvt) {
     if (!window.map.isActive) {
       window.map.activatePage();
     }
     var pinStatusCoords = {
-      x: window.variables.MAP_WIDTH / 2 - window.variables.MAIN_PIN_WIDTH / 2,
-      y: window.variables.MAP_HEIGTH / 2 - window.variables.MAIN_PIN_HEIGHT
+      x: MAP_WIDTH / 2 - MAIN_PIN_WIDTH / 2,
+      y: MAP_HEIGTH_MAX / 2 - MAIN_PIN_HEIGHT
     };
     var startCoords = {
       x: mousedownEvt.clientX,
@@ -37,21 +50,21 @@
       };
 
       var pinCoords = {
-        x: window.variables.mainPin.offsetLeft - shift.x,
-        y: window.variables.mainPin.offsetTop - shift.y
+        x: mainPin.offsetLeft - shift.x,
+        y: mainPin.offsetTop - shift.y
       };
 
       /**
        * Определение ограничений пина и координаты пина
        * @param {object}  mouseMoveEvt нажатие
        */
-      if (pinCoords.x >= window.variables.Border.LEFT && pinCoords.x <= window.variables.Border.RIGHT) {
-        window.variables.mainPin.style.left = pinCoords.x + 'px';
-        pinStatusCoords.x = pinCoords.x + window.variables.MAIN_PIN_WIDTH / 2;
+      if (pinCoords.x >= Border.LEFT && pinCoords.x <= Border.RIGHT) {
+        mainPin.style.left = pinCoords.x + 'px';
+        pinStatusCoords.x = pinCoords.x + MAIN_PIN_WIDTH / 2;
       }
-      if (pinCoords.y >= window.variables.Border.TOP && pinCoords.y <= window.variables.Border.BOTTOM) {
-        window.variables.mainPin.style.top = pinCoords.y + 'px';
-        pinStatusCoords.y = pinCoords.y + window.variables.MAIN_PIN_HEIGHT;
+      if (pinCoords.y >= Border.TOP && pinCoords.y <= Border.BOTTOM) {
+        mainPin.style.top = pinCoords.y + 'px';
+        pinStatusCoords.y = pinCoords.y + MAIN_PIN_HEIGHT;
       }
       window.map.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
     };

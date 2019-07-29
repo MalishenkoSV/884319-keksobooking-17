@@ -1,7 +1,7 @@
 // card.js
 'use strict';
 (function () {
-  var mapListCardElement = document.querySelector('.map');
+  var map = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var HousingType = {
@@ -87,7 +87,7 @@
   var showCardOnMap = function (advertOffer) {
     closeCard();
     var cardElement = renderAdvert(advertOffer);
-    mapListCardElement.insertBefore(cardElement, filtersContainer);
+    map.insertBefore(cardElement, filtersContainer);
   };
   var closeCard = function () {
     var cardAd = document.querySelector('.map__card.popup');

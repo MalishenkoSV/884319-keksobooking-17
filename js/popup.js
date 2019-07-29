@@ -7,6 +7,7 @@
   var templateError = document.querySelector('#error').content.querySelector('.error');
   var cloneError = templateError.cloneNode(true);
   var button = cloneError.querySelector('.error__button');
+  var ESC_KEYCODE = 27;
 
   /**
    *  Попап успешной отправки формы
@@ -27,7 +28,7 @@
    * @param{object} evt
    */
   var onSuccessMassageESCClose = function (evt) {
-    if (evt.keyCode === window.variables.ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEYCODE) {
       onSuccessMassageClose();
     }
   };
@@ -50,7 +51,7 @@
    * @param {object} evt
    */
   var onKeyPressOnError = function (evt) {
-    if (evt.keyCode === window.variables.ESC_KEYCODE) {
+    if (evt.keyCode === ESC_KEYCODE) {
       closeErrorMessage();
     }
   };
