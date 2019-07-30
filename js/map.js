@@ -39,10 +39,9 @@
    *  Загрузка данных
    *@param {array} data - данные из сервера
    */
-  var mixAds = [];
+  var ads = [];
   var onLoad = function (data) {
-    var ads = data;
-    mixAds = window.util.mixArray(ads);
+    ads = data;
   };
 
   window.backend.load(onLoad, window.popup.onErrorShowMessage);
@@ -53,7 +52,7 @@
   var onMapChangePins = function () {
     removePins();
     window.card.close();
-    window.pin.showPinOnMap(window.filter.applyFilters(mixAds).slice(0, MAX_ADS));
+    window.pin.showPinOnMap(window.filter.applyFilters(window.util.mixArray(ads)).slice(0, MAX_ADS));
   };
 
 
@@ -68,6 +67,7 @@
       return;
     }
     window.util.debounce(onMapChangePins());
+    window.variables.map.classList.add('map--active');
   };
   filtersContainer.addEventListener('change', onMapChangePins);
   window.map = {
