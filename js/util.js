@@ -19,27 +19,6 @@
   var getRandomElementFromArray = function (arr) {
     return arr[getRandomFromInterval(0, arr.length - 1)];
   };
-    /**
-   * Создает рандомное массив
-   * @param {array} arr -- массив
-   * @return {array} arr
-   */
-  var shuffleArray = function (arr) {
-    return arr.slice().sort(function () {
-      return Math.random() - 0.5;
-    });
-  };
-
-    /**
-   * Создает рандомный массив из массива
-   * @param {array} arr -- массив
-   * @return {array} arr
-   */
-  var getRandomSubarray = function (arr) {
-    var shuffledArray = shuffleArray(arr);
-    var randomEndIndex = getRandomFromInterval(1, arr.length - 1);
-    return shuffledArray.slice(0, randomEndIndex);
-  };
   /**
    * mixArray - создает массив на основе переданного со случайно расположенными
    * элементами.
@@ -52,16 +31,36 @@
     var clone = array.slice();
 
     array.forEach(function (element) {
-      element = getRandomElementFromArray(clone, true);
+      element = getRandomElementFromArray(clone);
       result.push(element);
     });
 
     return result;
   };
+  /**
+   * Возрашает фунцию устраненя дребезга через полсекуды
+   * @param {function} callback - callback function
+   * @return {function} - debounced function
+   */
+  var DEBOUNCE_INTERVAL = 500; // ms
+  var debounce = function (cb) {
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, DEBOUNCE_INTERVAL);
+    };
+  };
+
   window.util = {
     getRandomFromInterval: getRandomFromInterval,
     getRandomElementFromArray: getRandomElementFromArray,
-    getRandomSubarray: getRandomSubarray,
-    mixArray: mixArray
+    mixArray: mixArray,
+    debounce: debounce
   };
 })();

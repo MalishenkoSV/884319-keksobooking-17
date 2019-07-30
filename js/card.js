@@ -1,7 +1,7 @@
 // card.js
 'use strict';
 (function () {
-  var mapListCardElement = document.querySelector('.map');
+  var map = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var HousingType = {
@@ -17,16 +17,6 @@
    */
   var renderAdvert = function (advertOffer) {
     var advertTemplate = cardTemplate.cloneNode(true);
-    // var updateOffer = function (value, selector) {
-    //   if (value) {
-    //     advertTemplate.querySelector(selector).textContent = value;
-    //   } else {
-    //     advertTemplate.querySelector(selector).remove();
-    //   }
-    // };
-    // Object.keys(advertOffer.offer).forEach(function (key) {
-    //   updateOffer(advertOffer[key]);
-    // });
     if (advertOffer.offer.title) {
       advertTemplate.querySelector('.popup__title').textContent = advertOffer.offer.title;
     } else {
@@ -91,13 +81,13 @@
   };
 
   /**
-   * Функция определения координаты адресса пина
+   * Функция показа  пинов  на карте
    * @param {object} advertOffer - объект объявления
    */
   var showCardOnMap = function (advertOffer) {
     closeCard();
     var cardElement = renderAdvert(advertOffer);
-    mapListCardElement.insertBefore(cardElement, filtersContainer);
+    map.insertBefore(cardElement, filtersContainer);
   };
   var closeCard = function () {
     var cardAd = document.querySelector('.map__card.popup');
@@ -111,8 +101,8 @@
     document.removeEventListener('click', closeCard);
   };
   window.card = {
-    closeCard: closeCard,
-    showCardOnMap: showCardOnMap,
+    close: closeCard,
+    showOnMap: showCardOnMap,
     onClickCloseBtn: onClickCloseBtn
   };
 })();

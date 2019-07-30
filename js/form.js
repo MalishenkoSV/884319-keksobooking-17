@@ -1,11 +1,10 @@
 // form.js
 'use strict';
 (function () {
-  var mapFiltersList = document.querySelector('.map__filters');
-  var selectsList = mapFiltersList.querySelectorAll('select');
+  var mapFilters = document.querySelector('.map__filters');
+  var selects = mapFilters.querySelectorAll('select');
   var formAddress = document.querySelector('.ad-form');
-  var fieldsetsList = formAddress.querySelectorAll('fieldset');
-  var map = document.querySelector('.map');
+  var fieldsets = formAddress.querySelectorAll('fieldset');
   var typeSelect = formAddress.querySelector('#type');
   var priceSelect = formAddress.querySelector('#price');
   var timeinSelect = formAddress.querySelector('#timein');
@@ -26,8 +25,8 @@
   };
   /**
    * Функция активации карты
-   * удаление класса деактивации
-   * удаления класса деактивации полей формы
+   * @param{element} list
+   * @param{buleon} newStatus
    */
 
   var disableForm = function (list, newStatus) {
@@ -36,27 +35,23 @@
     });
   };
 
-  var deactivateForm = function () {
-    map.classList.add('map--faded');
+  var disable = function () {
+    window.variables.map.classList.add('map--faded');
     formAddress.classList.add('ad-form--disabled');
-    mapFiltersList.classList.add('ad-form--disabled');
-    disableForm(fieldsetsList, true);
-    disableForm(selectsList, true);
+    mapFilters.classList.add('ad-form--disabled');
+    disableForm(fieldsets, true);
+    disableForm(selects, true);
   };
-  var activateForm = function () {
-    map.classList.remove('map--faded');
+  var enable = function () {
+    window.variables.map.classList.remove('map--faded');
     formAddress.classList.remove('ad-form--disabled');
-    mapFiltersList.classList.remove('ad-form--disabled');
-    disableForm(fieldsetsList, false);
-    disableForm(selectsList, false);
+    mapFilters.classList.remove('ad-form--disabled');
+    disableForm(fieldsets, false);
+    disableForm(selects, false);
   };
+
   /**
-   * Функция определения координат адресса метки
-   * @param {number} x -- координата по горизонтали
-   * @param {number} y -- координата по вертикали
-   */
-  /**
-   * Функция обработчик события изменений на поле цены
+   * Функция обработчик события изменений на поле цены при изменени типа жилья
    * значение мин цены берется из перечисления
    */
   typeSelect.addEventListener('change', function () {
@@ -97,6 +92,10 @@
       roomSelect.setCustomValidity('Количество гостей больше возможного');
     }
   };
+  /**
+   * Функция - обработчик событий на поле гостей
+   * @param {Event} evt
+   */
   guestSelect.addEventListener('change', function () {
     validateGuestAndRoom();
   });
@@ -115,13 +114,13 @@
     var formData = new FormData(evt.currentTarget);
     window.backend.save(formData, onFormSave, window.popup.onErrorShowMessage);
     if (onFormSave) {
-      window.map.onPageDeactivate();
+      window.variables.map.onPageDeactivate();
     }
   };
   formAddress.addEventListener('submit', onSubmitClick);
 
   window.form = {
-    activateForm: activateForm,
-    deactivateForm: deactivateForm
+    disable: disable,
+    enable: enable
   };
 })();
