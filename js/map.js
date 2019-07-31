@@ -43,7 +43,6 @@
   var onLoad = function (data) {
     ads = data;
   };
-
   window.backend.load(onLoad, window.popup.onErrorShowMessage);
   /**
    * Обновление загруженных данных и показ на карте

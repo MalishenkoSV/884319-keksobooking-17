@@ -19,6 +19,17 @@
   var getRandomElementFromArray = function (arr) {
     return arr[getRandomFromInterval(0, arr.length - 1)];
   };
+  var getRandomElement = function (array, needRemove) {
+    var randomElementIndex = getRandomFromInterval(0, array.length - 1);
+    var randomElement = array[randomElementIndex];
+
+    if (needRemove) {
+      array.splice(randomElementIndex, 1);
+    }
+
+    return randomElement;
+  };
+
   /**
    * mixArray - создает массив на основе переданного со случайно расположенными
    * элементами.
@@ -31,12 +42,12 @@
     var clone = array.slice();
 
     array.forEach(function (element) {
-      element = getRandomElementFromArray(clone);
+      element = getRandomElement(clone, true);
       result.push(element);
     });
-
     return result;
   };
+
   /**
    * Возрашает фунцию устраненя дребезга через полсекуды
    * @param {function} callback - callback function
