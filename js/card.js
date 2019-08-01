@@ -5,6 +5,7 @@
   var filtersContainer = document.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
   var HousingType = {
     BUNGALO: 'Бунгало',
     PALACE: 'Дворец',
@@ -114,7 +115,14 @@
       document.removeEventListener('keydown', onKeyPressOnCard);
     }
   };
+  var onEnterPressCloseCard = function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      closeCard();
+      document.removeEventListener('keydown', onEnterPressCloseCard);
+    }
+  };
   document.addEventListener('keydown', onKeyPressOnCard);
+  document.addEventListener('keydown', onEnterPressCloseCard);
   window.card = {
     close: closeCard,
     showOnMap: showCardOnMap,
