@@ -4,6 +4,7 @@
   var map = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var ESC_KEYCODE = 27;
   var HousingType = {
     BUNGALO: 'Бунгало',
     PALACE: 'Дворец',
@@ -89,6 +90,9 @@
     var cardElement = renderAdvert(advertOffer);
     map.insertBefore(cardElement, filtersContainer);
   };
+  /**
+   * Функция удаления карточки  на карте
+   */
   var closeCard = function () {
     var cardAd = document.querySelector('.map__card.popup');
     if (cardAd) {
@@ -100,6 +104,17 @@
     closeCard();
     document.removeEventListener('click', closeCard);
   };
+  /**
+   *  Функция закрытия окна ошибки при нажатии на ESC
+   * @param {object} evt - DOM event object
+   */
+  var onKeyPressOnCard = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closeCard();
+      document.removeEventListener('keydown', onKeyPressOnCard);
+    }
+  };
+  document.addEventListener('keydown', onKeyPressOnCard);
   window.card = {
     close: closeCard,
     showOnMap: showCardOnMap,

@@ -1,9 +1,18 @@
 // pin.js
 'use strict';
 (function () {
-  var PIN_ACTIVE_CLASS = 'map__pin--active';
-  var PIN_MAIN_CLASS = 'map__pin--main';
-  var activePin = document.querySelector('.' + PIN_ACTIVE_CLASS);
+  var activePin = document.querySelector('.' + 'map__pin--active');
+  /**
+   * Делает выбранный пин активным
+   * @param {HTMLElement} selectedPin - selected pin DOM element
+   */
+  var onPinSetActive = function (selectedPin) {
+    if (activePin) {
+      activePin.classList.remove('map__pin--active');
+    }
+    selectedPin.classList.add('map__pin--active');
+    activePin = selectedPin;
+  };
   /**
    * Создает и отрисовывает объявление на карте
    * @param {object} advertData -- данные объекта объявления для отрисовки пина
@@ -18,6 +27,7 @@
       mapPinTemplate.querySelector('img').alt = advertData.offer.title;
       mapPinTemplate.addEventListener('click', function () {
         window.card.showOnMap(advertData);
+        mapPinTemplate.addEventListener('click', onPinSetActive);
       });
     }
     return mapPinTemplate;
@@ -39,30 +49,12 @@
    */
   var resetActivePin = function () {
     if (activePin) {
-      activePin.classList.remove(PIN_ACTIVE_CLASS);
+      activePin.classList.remove('map__pin--active');
     }
   };
 
-  /**
-   * Показать пины на карте
-   * @param {Array} element  - элемент
-   */
-  var setActivePin = function (element) {
-    if (element.classList.contains(PIN_MAIN_CLASS)) {
-      return;
-    }
-
-    if (activePin && element !== activePin) {
-      activePin.classList.remove(PIN_ACTIVE_CLASS);
-    }
-
-    element.classList.add(PIN_ACTIVE_CLASS);
-    activePin.addEventListener('keydown', window.card.showCardOnMaps);
-  };
-  window.variables.pin.addEventListener('focus', window.card.setActivePin);
   window.pin = {
     showPinOnMap: window.util.debounce(showPinOnMap),
-    setActivePin: setActivePin,
     resetActivePin: resetActivePin
   };
 })();
