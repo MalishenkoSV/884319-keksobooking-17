@@ -2,9 +2,8 @@
 'use strict';
 (function () {
   var PIN_ACTIVE_CLASS = 'map__pin--active';
-  // var PIN_CLASS = 'map__pin';
   var activePin = document.querySelector('.' + PIN_ACTIVE_CLASS);
-  var ENTER_KEYCODE = 13;
+
   /**
    * Сброс активации пинов
    */

@@ -145,6 +145,7 @@
    */
   var setAddressCoords = function (x, y) {
     addressInput.value = x + ', ' + y;
+    addressInput.defaultValue = addressInput.value;
   };
   /**
    * Функция показа сообщения при удачной отправке формы

@@ -10,10 +10,13 @@
     HEIGHT_MAX: 630,
     HEIGHT_MAP: 750
   };
-
   var MainPinSize = {
     WIDTH: 65,
     HEIGHT: 81
+  };
+  var pinStatusCoordsInit = {
+    x: Math.round(MapSize.WIDTH_MAX / 2 - MainPinSize.WIDTH / 2),
+    y: Math.round(MapSize.HEIGHT_MAP / 2 - MainPinSize.HEIGHT)
   };
   var Border = {
     LEFT: 0,
@@ -26,6 +29,7 @@
   var filtersContainer = document.querySelector('.map__filters');
   var onEnterKeyDownActiveMap = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
+      window.form.setAddressCoords(pinStatusCoordsInit.x, pinStatusCoordsInit.y);
       onMapActive();
     }
     mainPin.removeEventListener('keydown', onEnterKeyDownActiveMap);
