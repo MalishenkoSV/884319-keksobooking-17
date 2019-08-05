@@ -1,6 +1,7 @@
 // util.js
 'use strict';
 (function () {
+  var DEBOUNCE_INTERVAL = 500; // ms
   /**
    * Создает рандомное число
    * @param {number} min — минимальное число
@@ -11,14 +12,6 @@
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  /**
-   * Создает рандомное число из массива
-   * @param {array} arr -- массив
-   * @return {array} arr
-   */
-  var getRandomElementFromArray = function (arr) {
-    return arr[getRandomFromInterval(0, arr.length - 1)];
-  };
   var getRandomElement = function (array, needRemove) {
     var randomElementIndex = getRandomFromInterval(0, array.length - 1);
     var randomElement = array[randomElementIndex];
@@ -26,7 +19,6 @@
     if (needRemove) {
       array.splice(randomElementIndex, 1);
     }
-
     return randomElement;
   };
 
@@ -38,22 +30,21 @@
    * @return {Array}         Сформированный массив.
    */
   var mixArray = function (array) {
-    var result = [];
+    var results = [];
     var clone = array.slice();
 
     array.forEach(function (element) {
       element = getRandomElement(clone, true);
-      result.push(element);
+      results.push(element);
     });
-    return result;
+    return results;
   };
 
   /**
-   * Возрашает фунцию устраненя дребезга через полсекуды
-   * @param {function} callback - callback function
+   * Возрашает фунцию устранения дребезга через полсекуды
+   * @param {function} cb - callback function
    * @return {function} - debounced function
    */
-  var DEBOUNCE_INTERVAL = 500; // ms
   var debounce = function (cb) {
     var lastTimeout = null;
 
@@ -67,10 +58,18 @@
       }, DEBOUNCE_INTERVAL);
     };
   };
+  var showVisualFeedback = function (element) {
+    var removeAnimationClass = function () {
+      element.classList.remove('jump');
+      element.removeEventListener('animationend', removeAnimationClass);
+    };
+    element.addEventListener('animationend', removeAnimationClass);
 
+    element.classList.add('jump');
+  };
   window.util = {
     getRandomFromInterval: getRandomFromInterval,
-    getRandomElementFromArray: getRandomElementFromArray,
+    showVisualFeedback: showVisualFeedback,
     mixArray: mixArray,
     debounce: debounce
   };

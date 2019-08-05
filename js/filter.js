@@ -1,19 +1,19 @@
 // // filter.js
 'use strict';
 (function () {
-  var PRICE_LOW = 10000;
-  var PRICE_HIGH = 50000;
+  var PRICE_LOW = 10001;
+  var PRICE_HIGH = 49999;
   var filtersContainer = document.querySelector('.map__filters');
-  var filtersState = {};
+  var filtersStateToCase = {};
   /**
    * filterByPrice - Фильтрует объявления ads по цене.
    * @param  {string} price Ценовой интервал.
    * @return {array}  ads Массив объявлений после фильтрации.
    */
-  var startFilters = {
+  var startFiltersToCase = {
     features: function (features) {
-      for (var i = 0; i < filtersState.features.length; i++) {
-        if (features.indexOf(filtersState.features[i]) === -1) {
+      for (var i = 0; i < filtersStateToCase.features.length; i++) {
+        if (features.indexOf(filtersStateToCase.features[i]) === -1) {
           return false;
         }
       }
@@ -21,15 +21,15 @@
       return true;
     },
     price: function (price) {
-      if (filtersState.price === 'low') {
+      if (filtersStateToCase.price === 'low') {
         return price < PRICE_LOW;
       }
 
-      if (filtersState.price === 'high') {
+      if (filtersStateToCase.price === 'high') {
         return price > PRICE_HIGH;
       }
 
-      if (filtersState.price === 'middle') {
+      if (filtersStateToCase.price === 'middle') {
         return price > PRICE_LOW && price < PRICE_HIGH;
       }
 
@@ -45,18 +45,18 @@
     var value = evt.target.value;
 
     if (evt.target.type !== 'checkbox') {
-      filtersState[name] = value;
+      filtersStateToCase[name] = value;
     } else {
-      if (!filtersState[name]) {
-        filtersState[name] = [];
+      if (!filtersStateToCase[name]) {
+        filtersStateToCase[name] = [];
       }
 
-      var index = filtersState[name].indexOf(value);
+      var index = filtersStateToCase[name].indexOf(value);
 
       if (evt.target.checked) {
-        filtersState[name].push(value);
+        filtersStateToCase[name].push(value);
       } else {
-        filtersState[name] = [].concat(filtersState[name].slice(0, index), filtersState[name].slice(index + 1)
+        filtersStateToCase[name] = [].concat(filtersStateToCase[name].slice(0, index), filtersStateToCase[name].slice(index + 1)
         );
       }
     }
@@ -68,23 +68,19 @@
    * @return {Array}  updatedAds Массив объявлений после фильтрации.
    */
   var applyFilters = function (ads) {
-
-    var keysToCheck = Object.keys(filtersState);
-
+    var сheckedFiltersKeys = Object.keys(filtersStateToCase);
     var updatedAds = ads.filter(function (item) {
       var isValid = true;
-
-      for (var i = 0; i < keysToCheck.length; i++) {
-        var key = keysToCheck[i];
-
-        if (filtersState[key] === 'any') {
+      for (var i = 0; i < сheckedFiltersKeys.length; i++) {
+        var key = сheckedFiltersKeys[i];
+        if (filtersStateToCase[key] === 'any') {
           isValid = true;
         } else if (!item.offer[key]) {
           isValid = false;
-        } else if (typeof startFilters[key] === 'function') {
-          isValid = startFilters[key](item.offer[key]);
+        } else if (typeof startFiltersToCase[key] === 'function') {
+          isValid = startFiltersToCase[key](item.offer[key]);
         } else {
-          isValid = filtersState[key] === item.offer[key].toString();
+          isValid = filtersStateToCase[key] === item.offer[key].toString();
         }
 
         if (!isValid) {

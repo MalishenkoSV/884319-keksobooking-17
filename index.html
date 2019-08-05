@@ -23,7 +23,7 @@
         <div class="map__overlay">
           <h2 class="map__title">И снова Токио!</h2>
         </div>
-        <button class="map__pin map__pin--main" style="left: 570px; top: 375px;">
+        <button class="map__pin map__pin--main" style="left: 570px; top: 375px;"tabindex="0">
           <img src="img/muffin-red.svg" width="40" height="44" draggable="false" alt="Метка объявления">
           <svg viewBox="0 0 70 70" width="156" height="156" aria-label="Метка для поиска жилья">
             <defs>
@@ -104,7 +104,7 @@
         </fieldset>
         <fieldset  class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" readonly>
         </fieldset>
         <fieldset  class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset  class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" max="1000000" placeholder="5000" required>
+          <input id="price" name="price" type="number" min="0" max="1000000" placeholder="1000" required>
         </fieldset>
         <fieldset  class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -134,8 +134,9 @@
         </fieldset>
         <fieldset  class="ad-form__element">
           <label class="ad-form__label" for="room_number">Кол-во комнат</label>
-          <select id="room_number" name="rooms">
-            <option value="1" selected>1 комната</option>
+          <select id="room_number" name="rooms" required>
+            <option value=""selected>количество комнат...</option>
+            <option value="1">1 комната</option>
             <option value="2">2 комнаты</option>
             <option value="3">3 комнаты</option>
             <option value="100">100 комнат</option>
@@ -143,14 +144,15 @@
         </fieldset>
         <fieldset  class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
-          <select id="capacity" name="capacity">
-            <option value="3" selected>для 3 гостей</option>
+          <select id="capacity" name="capacity" required>
+              <option value="выбор количества" selected>для ... количества гостей</option>
+            <option value="3" >для 3 гостей</option>
             <option value="2">для 2 гостей</option>
             <option value="1">для 1 гостя</option>
             <option value="0">не для гостей</option>
           </select>
         </fieldset>
-        <fieldset  class="ad-form__element ad-form__element--wide features">
+        <fieldset  class="ad-form__element ad-form__element--wide features" disabled>
           <legend>Удобства: Wi-Fi, кухня, парковка, стиралка, лифт, кондиционер</legend>
           <input type="checkbox" name="features" value="wifi" id="feature-wifi" class="feature__checkbox visually-hidden">
           <label class="feature feature--wifi" for="feature-wifi">Wi-Fi</label>
@@ -230,7 +232,7 @@
 
   <!-- Метка объявления -->
   <template id="pin">
-    <button type="button" class="map__pin map__pin--all" style="left: 200px; top: 400px;"><img src="img/avatars/user07.png" width="40" height="40" draggable="false" alt="Метка объявления"></button>
+    <button type="button" class="map__pin map__pin--preen" style="left: 200px; top: 400px;"><img src="img/avatars/user07.png" width="40" height="40" draggable="false" alt="Метка объявления"></button>
   </template>
 
   <!-- Сообщение об успешном создании объявления -->
@@ -247,16 +249,15 @@
       <button class="error__button" href="#">Попробовать снова</button>
     </div>
   </template>
-  <script src="js/variables.js"></script>
   <script src="js/util.js"></script>
   <script src="js/backend.js"></script>
   <script src="js/popup.js"></script>
   <script src="js/card.js"></script>
-  <script src="js/pin.js"></script>
+  <script src="js/preens.js"></script>
   <script src="js/form.js"></script>
   <script src="js/filter.js"></script>
-  <script src="js/map.js"></script>
-  <script src="js/drag.js"></script>
+  <!-- <script src="js/drag.js"></script> -->
+  <script src="js/page.js"></script>
 
 </body>
 </html>
