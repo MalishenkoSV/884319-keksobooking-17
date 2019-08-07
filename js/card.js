@@ -79,15 +79,17 @@
       return;
     }
     var cardElement = renderAdvert(adOffer);
-    window.form.map.insertBefore(cardElement, filtersContainer);
+    window.page.map.insertBefore(cardElement, filtersContainer);
   };
   /**
    * Функция удаления карточки  на карте
    */
   var onCardClose = function () {
+    // var currentTarget;
     var cardAd = document.querySelector('.map__card.popup');
     if (cardAd) {
       cardAd.remove();
+      // currentTarget.classList.remove('map__pin--active');
     }
   };
   var onCardCloseOnClick = function () {
@@ -113,7 +115,6 @@
     if (evt.keyCode === ENTER_KEYCODE) {
       onCardClose();
     }
-    button.removeEventListener('keydown', onEnterKeyDown);
   };
   window.card = {
     close: onCardClose,
