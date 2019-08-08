@@ -53,16 +53,6 @@
    */
   // var currentTarget;
   var onMapShowPins = function (advertOffers) {
-    // var target = evt.target.closest('.map__pin');
-
-    // if (target) {
-    //   if (currentTarget) {
-    //     currentTarget.classList.remove('map__pin--active');
-    //     window.card.close();
-    //   }
-    //   target.classList.add('map__pin--active');
-    //   currentTarget = target;
-    // }
     var fragment = document.createDocumentFragment();
     advertOffers.forEach(function (advertOffer) {
       var element = createMapPin(advertOffer);

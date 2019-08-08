@@ -6,33 +6,28 @@
   var MapSize = {
     WIDTH_MIN: 0,
     WIDTH_MAX: 1200,
+    HEIGHT: 750,
     HEIGHT_MIN: 130,
     HEIGHT_MAX: 630
   };
   var MainPinSize = {
-    WIDTH: 65,
-    HEIGHT: 81,
+    WIDTH: 64,
+    HEIGHT: 80,
     RADIUS: 32
   };
-  var Border = {
-    LEFT: 0,
-    RIGHT: Math.round(MapSize.WIDTH_MAX - MainPinSize.RADIUS),
-    TOP: MapSize.HEIGHT_MIN,
-    BOTTOM: Math.round(MapSize.HEIGHT_MAX - MainPinSize.RADIUS)
-  };
   var filtersContainer = document.querySelector('.map__filters');
-  var addressInput = document.querySelector('#address');
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
-  var pinStatusCoordsInit = {
+  /**
+  * заполняет поле координатами передвинутой метки
+  */
+  var pinStatusCoords = {
     x: mainPin.offsetLeft,
-    y: mainPin.offsetTop,
+    y: mainPin.offsetTop
   };
-  var setAddressCoords = function (coords) {
-    addressInput.value = coords.x + ', ' + coords.y;
-    addressInput.defaultValue = addressInput.value;
-  };
-  setAddressCoords(pinStatusCoordsInit.x, pinStatusCoordsInit.y);
+  window.form.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
+
+
   var onEnterKeyDownActiveMap = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       onMainPinClick();
@@ -52,16 +47,23 @@
   /**
    *  Деактивация страницы
    */
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
+  };
   var onFormDeactivateMap = function () {
     isBookingMapActive = false;
     map.classList.add('map--faded');
     var pins = map.querySelectorAll('.map__pin--all');
-    window.preens.resetActivePin();
+    window.preens.resetActivePin(pins);
+    removePins();
     window.card.close();
     window.form.disableMap();
     initMap();
-    window.form.onFormDeactivate(pins);
-    setAddressCoords(pinStatusCoordsInit.x, pinStatusCoordsInit.y);
+    window.form.onFormReset();
+    window.form.setAddressCoords(MapSize.WIDTH_MAX / 2, MapSize.HEIGHT_MAX / 2);
   };
   onFormDeactivateMap();
   /**
@@ -79,7 +81,7 @@
    * @param{array} ads обьявлений
    */
   var onMapChangePins = function () {
-    window.form.removePins();
+    removePins();
     window.card.close();
     window.preens.onMapShowPins(window.filter.applyFilters(window.util.mixArray(ads)).slice(0, MAX_ADS));
   };
@@ -96,39 +98,34 @@
     destroyMap();
     mainPin.removeEventListener('keydown', onMainPinClick);
   };
-  filtersContainer.addEventListener('change', onMapChangePins);
+  filtersContainer.addEventListener('change', onMainPinClick);
   /**
    * Функция определения движения при нажатии мыши
    * @param {'mousedown'} нажатие
    * @param {object} mousedownEvt - начальные координаты
    */
   mainPin.addEventListener('mousedown', function (mousedownEvt) {
+    mousedownEvt.preventDefault();
     if (!isBookingMapActive) {
       onMainPinClick();
     }
-    // запомним координаты начальные
+
     var startCoords = {
       x: mousedownEvt.clientX,
       y: mousedownEvt.clientY
     };
-    var getPinCoords = function (height) {
-      return {
-        x: mainPin.offsetLeft + MainPinSize.RADIUS,
-        y: mainPin.offsetTop + height,
-      };
-    };
+
     /**
      * Функция движения и координаты смещения
      * @param {object}  mouseMoveEvt нажатие
      */
     var onMouseMove = function (mouseMoveEvt) {
-      // смещение
       var shift = {
         x: startCoords.x - mouseMoveEvt.clientX,
         y: startCoords.y - mouseMoveEvt.clientY
       };
 
-      var pinStatusCoords = {
+      startCoords = {
         x: mouseMoveEvt.clientX,
         y: mouseMoveEvt.clientY
       };
@@ -138,33 +135,32 @@
         y: mainPin.offsetTop - shift.y
       };
 
-      /**
-       * Определение ограничений пина и координаты пина
-       * @param {object}  mouseMoveEvt нажатие
-       */
-
-      if (pinCoords.x >= Border.LEFT && pinCoords.x <= Border.RIGHT) {
+      var border = {
+        left: MapSize.WIDTH_MIN - MainPinSize.RADIUS,
+        right: MapSize.WIDTH_MAX - MainPinSize.RADIUS,
+        top: MapSize.HEIGHT_MIN,
+        bottom: MapSize.HEIGHT_MAX
+      };
+      if (pinCoords.x >= border.left && pinCoords.x < border.right) {
         mainPin.style.left = pinCoords.x + 'px';
-        pinStatusCoords.x = pinCoords.x - MainPinSize.RADIUS;
+        pinStatusCoords.x = pinCoords.x + MainPinSize.RADIUS;
       }
-      if (pinCoords.y >= Border.TOP && pinCoords.y <= Border.BOTTOM) {
+      if (pinCoords.y >= border.top && pinCoords.y < border.bottom) {
         mainPin.style.top = pinCoords.y + 'px';
-        pinStatusCoords.y = pinCoords.y - MainPinSize.RADIUS;
+        pinStatusCoords.y = pinCoords.y + MainPinSize.HEIGHT;
       }
-      // var x = Math.min(Math.max(pinCoords.x, Border.LEFT), Border.RIGHT);
-      // var y = Math.min(Math.max(pinCoords.y, Border.TOP), Border.BOTTOM);
-      // renderPin(x, y);
-      setAddressCoords(getPinCoords(MainPinSize.RADIUS));
+      window.form.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
     };
+
       /**
        * Функция поднятия руки с мышки и прекращение движения
        * определение координат пина и удаление обработчиков
        * добавление обработчиковll
-       * @param{object} upEvt
+       * @param {object} upEvt
        */
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      setAddressCoords(getPinCoords(MainPinSize.HEIGHT));
+      window.form.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -178,7 +174,7 @@
     onFormDeactivateMap: onFormDeactivateMap,
     onMapChangePins: onMapChangePins,
     isBookingMapActive: isBookingMapActive,
-    pinStatusCoordsInit: pinStatusCoordsInit,
-    setAddressCoords: setAddressCoords
+    MainPinSize: MainPinSize,
+    pinStatusCoords: pinStatusCoords
   };
 })();

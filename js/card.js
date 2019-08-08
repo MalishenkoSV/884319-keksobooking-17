@@ -89,12 +89,11 @@
     var cardAd = document.querySelector('.map__card.popup');
     if (cardAd) {
       cardAd.remove();
-      // currentTarget.classList.remove('map__pin--active');
+      window.preens.resetActivePin();
     }
   };
   var onCardCloseOnClick = function () {
     onCardClose();
-    button.removeEventListener('click', onCardCloseOnClick);
   };
 
   /**
@@ -105,6 +104,7 @@
     if (evt.keyCode === ESC_KEYCODE) {
       onCardClose();
       document.removeEventListener('keydown', onEscKeyDown);
+      button.removeEventListener('click', onCardCloseOnClick);
     }
   };
   /**

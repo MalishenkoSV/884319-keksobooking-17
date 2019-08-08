@@ -12,16 +12,6 @@
   errorMessage.textContent = 'Ошибка заполнения. Пожалуйста, исправьте форму и попробуйте еще раз.';
   var button = cloneError.querySelector('.error__button');
   /**
-   *  Попап успешной отправки формы
-   */
-  var onSuccessShowMessage = function () {
-    main.insertAdjacentElement('afterbegin', cloneSuccess);
-    createSucceszIndex();
-    document.addEventListener('keydown', onSuccessMassageESCClose);
-    document.addEventListener('click', onSuccessMassageClose);
-    window.page.onMapDeactivate();
-  };
-  /**
    *  Функция закрытия попапа успешной отправки формы
    */
   var onSuccessMassageClose = function () {
@@ -33,29 +23,22 @@
    */
   var onSuccessMassageESCClose = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
-      onSuccessMassageClose();
+      cloneSuccess.remove();
     }
   };
   /**
-   *  Попап ошибки при отправке формы
+   *  Попап успешной отправки формы
    */
-  var onErrorShowMessage = function () {
-    main.insertAdjacentElement('afterbegin', cloneError);
-    createErrorzIndex();
-
-  };
-  var createErrorzIndex = function () {
-    cloneError.style.zIndex = '200';
-
-  };
-  var createSucceszIndex = function () {
-    cloneSuccess.style.zIndex = '200';
-
+  var onSuccessShowMessage = function () {
+    main.insertAdjacentElement('afterbegin', cloneSuccess);
+    document.addEventListener('keydown', onSuccessMassageESCClose);
+    document.addEventListener('click', onSuccessMassageClose);
+    window.page.onFormDeactivateMap();
   };
 
   var closeErrorMessage = function () {
     cloneError.remove();
-
+    window.form.unlock();
   };
   /**
    *  Функция закрытия окна ошибки при нажатии на ESC
@@ -70,6 +53,13 @@
     if (evt.keyCode === ENTER_KEYCODE) {
       closeErrorMessage();
     }
+  };
+  /**
+   *  Попап ошибки при отправке формы
+   */
+  var onErrorShowMessage = function () {
+    main.insertAdjacentElement('afterbegin', cloneError);
+
   };
   document.addEventListener('keydown', onKeyPressOnError);
   document.addEventListener('click', closeErrorMessage);
