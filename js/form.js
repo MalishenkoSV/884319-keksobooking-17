@@ -28,7 +28,6 @@
       listElement.disabled = newStatus;
     });
   };
-
   /**
    * Функция активации карты
    * @param{element} list
@@ -47,6 +46,9 @@
     disableForm(fieldsets, true);
     disableForm(selects, true);
   };
+  /**
+   * Функция - удаление пинов
+   */
   var removePins = function () {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (pin) {
