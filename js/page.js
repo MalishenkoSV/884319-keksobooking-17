@@ -18,15 +18,6 @@
   var filtersContainer = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
   var mainPin = map.querySelector('.map__pin--main');
-  /**
-  * заполняет поле координатами передвинутой метки
-  */
-  var pinStatusCoords = {
-    x: mainPin.offsetLeft,
-    y: mainPin.offsetTop
-  };
-  window.form.setAddressCoords(pinStatusCoords.x, pinStatusCoords.y);
-
 
   var onEnterKeyDownActiveMap = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
@@ -109,6 +100,10 @@
     if (!isBookingMapActive) {
       onMainPinClick();
     }
+    var pinStatusCoords = {
+      x: MapSize.WIDTH_MAX / 2 - MainPinSize.RADIUS,
+      y: MapSize.HEIGHT / 2 - MainPinSize.HEIGHT
+    };
 
     var startCoords = {
       x: mousedownEvt.clientX,
@@ -174,7 +169,6 @@
     onFormDeactivateMap: onFormDeactivateMap,
     onMapChangePins: onMapChangePins,
     isBookingMapActive: isBookingMapActive,
-    MainPinSize: MainPinSize,
-    pinStatusCoords: pinStatusCoords
+    MainPinSize: MainPinSize
   };
 })();
